@@ -309,7 +309,7 @@ function initCharts(jobDataByMonth = []) { // Default to an empty array
 // =================================================================
 async function initializeDashboard() {
   try {
-    const token = localStorage.getItem("recruiterToken");
+    const token = localStorage.getItem("jwtToken");
     const res = await fetch("https://portpholiohub.onrender.com/recruiter/jobs", {
       headers: { "Authorization": `Bearer ${token}` }
     });
@@ -408,7 +408,7 @@ async function loadApplicants() {
   if (!grid) return;
 
   grid.innerHTML = "<p>Loading applicants...</p>";
-  const token = localStorage.getItem("recruiterToken"); // Make sure this is the correct token key
+  const token = localStorage.getItem("jwtToken"); // Make sure this is the correct token key
 
   try {
     const res = await fetch("https://portpholiohub.onrender.com/recruiter/applicants", {
@@ -418,7 +418,7 @@ async function loadApplicants() {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch applicants.");
+      throw new Error("No applicants have applied to your jobs yet.");
     }
     
     const applications = await res.json();
@@ -568,7 +568,7 @@ function renderPagination(total){
 
 // ✅ NEW: Function to update application status via API
 async function updateApplicationStatus(applicationId, status) {
-  const token = localStorage.getItem("recruiterToken");
+  const token = localStorage.getItem("jwtToken");
   try {
     const res = await fetch(`https://portpholiohub.onrender.com/recruiter/applicants/${applicationId}/status`, {
       method: 'PATCH',
@@ -647,7 +647,7 @@ if (e.target.matches('.btn-view')) {
 // =======================================
 //              JOB POSTING
 // =======================================
-const token = localStorage.getItem("recruiterToken"); // save this at login/signup
+const token = localStorage.getItem("jwtToken"); // save this at login/signup
 
 document.addEventListener("click", async (e) => {
   if (e.target.closest(".btn-primary")) {

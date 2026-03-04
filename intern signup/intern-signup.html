@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Intern Signup</title>
   <link rel="stylesheet" href="intern-signup.css" />
-<link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
+
 <body>
   <div id="page-wrapper">
     <!-- Left Form Section -->
     <div id="form-side">
       <a id="logo" href="../index.html">
-       <img src="../resources/logo.png" alt="PortfolioHub Logo">
+        <img src="../resources/logo.png" alt="PortfolioHub Logo">
       </a>
       <div id="recruit">
-      <h1 id="form-title">Create an Account</h1>
-      <p>Do you want to signup as recruiter  <a href="../recruiter signup/recruit-signup.html">Click here</a></p>
+        <h1 id="form-title">Create an Account</h1>
+        <p>Do you want to signup as recruiter <a href="../recruiter signup/recruit-signup.html">Click here</a></p>
       </div>
       <p id="form-subtitle">One more action and you'll be exactly where you want to be.</p>
 
       <form id="signup-form">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name"  name="username" placeholder="Your name here" required />
+          <input type="text" id="name" name="username" placeholder="Your name here" required />
         </div>
 
         <div class="form-group">
@@ -45,23 +44,23 @@
         <div class="form-group">
           <label for="confirm">Confirm Password</label>
           <div class="password-wrap">
-            <input type="password" id="confirm"  name="confirm_password"  placeholder="********" required />
+            <input type="password" id="confirm" name="confirm_password" placeholder="********" required />
             <i class="ri-eye-fill" id="toggle-confirm"></i>
           </div>
         </div>
-  
+
         <button id="register-btn" type="submit">Register as Intern</button>
 
         <div id="or-line">Or Register With</div>
 
 
         <div id="social-buttons">
-          <a href="https://portpholiohub.onrender.com/api/auth/github" style="text-decoration: none;">
-            <button type="button"  id="github-btn"><i class="ri-github-fill"></i> GitHub</button>
+          <a href="http://localhost:5000/api/auth/github" style="text-decoration: none;">
+            <button type="button" id="github-btn"><i class="ri-github-fill"></i> GitHub</button>
           </a>
 
-          <a href="https://portpholiohub.onrender.com/auth/google/intern" style="text-decoration: none;">
-            <button type="button"  id="google-btn"><i class="ri-google-fill"></i> Google</button>
+          <a href="http://localhost:5000/auth/google/intern" style="text-decoration: none;">
+            <button type="button" id="google-btn"><i class="ri-google-fill"></i> Google</button>
           </a>
 
           <button type="button" id="mobile-btn"><i class="ri-smartphone-line"></i> Phone</button>
@@ -75,63 +74,63 @@
     <div id="image-side"></div>
   </div>
 
-  
+
   <div id="message" style="margin-top: 15px; font-weight: bold;"></div>
 
 
   <script src="intern-signup.js"></script>
 
-  
-<script>
 
-  window.addEventListener("load", () => {
-    const params = new URLSearchParams(window.location.search);
-    const status = params.get("status");
-    const error = params.get("error");
-      
-    // G O O G L E
+  <script>
 
-    if (status === "google_signup_success") {
-      showAlert("Signed up with Google successfully!", "success");
+    window.addEventListener("load", () => {
+      const params = new URLSearchParams(window.location.search);
+      const status = params.get("status");
+      const error = params.get("error");
+
+      // G O O G L E
+
+      if (status === "google_signup_success") {
+        showAlert("Signed up with Google successfully!", "success");
+      }
+
+      if (error === "google_auth_failed") {
+        showAlert("Google login failed. Try again.", "error");
+      }
+
+      if (error === "google_db_error") {
+        showAlert("Failed to save user. Try later.", "error");
+      }
+
+      // G I T H U B
+
+      if (status === "github_signup_success") {
+        showAlert("Signed up with GitHub successfully!", "success");
+      }
+
+      if (error === "github_signup_failed") {
+        showAlert("GitHub signup failed. Try again.", "error");
+      }
+
+      if (error === "github_existing") {
+        showAlert("Account already exists. Please log in.", "error");
+      }
+    });
+  </script>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    if (error === 'username_taken') {
+      showPopupAlert("⚠️ Username already exists. Please try again.");
     }
 
-    if (error === "google_auth_failed") {
-      showAlert("Google login failed. Try again.", "error");
-    }
-
-    if (error === "google_db_error") {
-      showAlert("Failed to save user. Try later.", "error");
-    }
-          
-    // G I T H U B
-
-     if (status === "github_signup_success") {
-    showAlert("Signed up with GitHub successfully!", "success");
-  }
-
-  if (error === "github_signup_failed") {
-    showAlert("GitHub signup failed. Try again.", "error");
-  }
-
-  if (error === "github_existing") {
-    showAlert("Account already exists. Please log in.", "error");
-  }
-  });
-</script>
-
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const error = urlParams.get('error');
-
-  if (error === 'username_taken') {
-    showPopupAlert("⚠️ Username already exists. Please try again.");
-  }
-
-  // Your existing showPopupAlert() function
-  function showPopupAlert(message, duration = 5000) {
-    const alertBox = document.createElement('div');
-    alertBox.textContent = message;
-    alertBox.style.cssText = `
+    // Your existing showPopupAlert() function
+    function showPopupAlert(message, duration = 5000) {
+      const alertBox = document.createElement('div');
+      alertBox.textContent = message;
+      alertBox.style.cssText = `
       position: fixed;
       top: 20px;
       left: 50%;
@@ -145,11 +144,12 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       backdrop-filter: blur(8px);
     `;
-    document.body.appendChild(alertBox);
-    setTimeout(() => alertBox.remove(), duration);
-  }
-</script>
+      document.body.appendChild(alertBox);
+      setTimeout(() => alertBox.remove(), duration);
+    }
+  </script>
 
 
 </body>
+
 </html>

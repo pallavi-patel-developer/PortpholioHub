@@ -1,4 +1,3 @@
-//  EDIT PROFILE - EXPEREINCE SCHEMA
 
 const mongoose = require('mongoose');
 const experienceSchema = new mongoose.Schema({

@@ -1,4 +1,3 @@
-// Hamburger toggle
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 
@@ -8,7 +7,6 @@ if (hamburger && navLinks) {
      });
 }
 
-// Intersection Observer to add 'in-view' class on scroll
 const observer = new IntersectionObserver((entries) => {
      entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -25,7 +23,6 @@ if (document.querySelectorAll('.hiw-step')) {
      });
 }
 
-// Dropdown toggle logic
 if (document.querySelectorAll('.dropdown > button')) {
      document.querySelectorAll('.dropdown > button').forEach(button => {
           button.addEventListener('click', (e) => {
@@ -45,7 +42,6 @@ document.addEventListener('click', () => {
      });
 });
 
-// Pagination active state
 if (document.querySelector('.pagination')) {
      document.querySelectorAll('.pagination a').forEach(button => {
           button.addEventListener('click', () => {
@@ -56,7 +52,7 @@ if (document.querySelector('.pagination')) {
 }
 
 if (document.querySelector('.filters')) {
-     document.querySelector('.filters').addEventListener('click', function(e) {
+     document.querySelector('.filters').addEventListener('click', function (e) {
           if (window.innerWidth <= 660 && e.target === this) {
                this.classList.toggle('show');
           }
@@ -97,7 +93,6 @@ if (document.querySelector('.filters')) {
      }
 })();
 
-// Cursor
 var crsr = document.querySelector("#cursor");
 var blur = document.querySelector("#cursorblur");
 
@@ -129,21 +124,20 @@ function showAlert(message, type = "success") {
           `;
           document.body.appendChild(alertBox);
      }
-     
+
      alertBox.innerText = message;
      alertBox.className = `alert ${type}`;
      alertBox.style.display = "block";
      alertBox.style.backgroundColor = type === "success" ? "#4CAF50" : type === "info" ? "#2196F3" : "#f44336";
-     
+
      setTimeout(() => {
           alertBox.style.display = "none";
      }, 4000);
 }
 
-// SHOW TALENTS 
 const grid = document.getElementById("profileGrid");
 const paginationDiv = document.getElementById("pagination");
-const API_URL = "https://portpholiohub.onrender.com/recruiter/profiles";
+const API_URL = "http://localhost:5000/recruiter/profiles";
 
 async function fetchProfiles(page = 1) {
      try {
@@ -153,13 +147,12 @@ async function fetchProfiles(page = 1) {
           renderProfiles(data.profiles);
           renderPagination(data.totalPages, data.currentPage);
      } catch (err) {
-          console.error("❌ Error fetching profiles:", err);
      }
 }
 
 function renderProfiles(profiles) {
-     grid.innerHTML = ""; // clear old profiles
-          const fragment = document.createDocumentFragment(); 
+     grid.innerHTML = "";
+     const fragment = document.createDocumentFragment();
 
      profiles.forEach(profile => {
           const card = document.createElement("div");
@@ -179,24 +172,23 @@ function renderProfiles(profiles) {
                     <button data-portfolio-id="${profile._id}" class="portfolio-btn protected-link">View Portfolio</button>
                </div>
           `;
-          fragment.appendChild(card); 
+          fragment.appendChild(card);
      });
-     grid.appendChild(fragment); 
+     grid.appendChild(fragment);
 }
 
 
-grid.addEventListener('click', function(event) {
+grid.addEventListener('click', function (event) {
      if (event.target.classList.contains('portfolio-btn')) {
           const token = localStorage.getItem('jwtToken');
           if (!token) {
                showAlert("Login first to access this feature", "error");
-               return; 
+               return;
           }
 
           const portfolioId = event.target.dataset.portfolioId;
-          if (portfolioId) { 
-               // this line change on 19 sep 25
-               window.location.href =`../portfolio-viewer.html?id=${portfolioId}`;
+          if (portfolioId) {
+               window.location.href = `../portfolio-viewer.html?id=${portfolioId}`;
           }
      }
 });
@@ -229,60 +221,54 @@ function renderPagination(totalPages, currentPage) {
      }
 }
 
-// Load first page
 fetchProfiles(1);
 
 
-// =======================================================
-// ----------- NEW: AUTHENTICATION & LOGOUT LOGIC --------
-// =======================================================
-
 document.addEventListener("DOMContentLoaded", () => {
-          const authLinks = document.getElementById("auth-links");
-          const logoutBtn = document.getElementById("logout-btn");
-          const token = localStorage.getItem('jwtToken');
+     const authLinks = document.getElementById("auth-links");
+     const logoutBtn = document.getElementById("logout-btn");
+     const token = localStorage.getItem('jwtToken');
 
-          if (token) {
-                    fetch("https://portpholiohub.onrender.com/recruiter/me", {
-                              method: "GET",
-                              headers: {
-                                        'Authorization': `Bearer ${token}`
-                              }
-                    })
-                    .then(res => {
-                              if (!res.ok) {
-                                        localStorage.removeItem('jwtToken');
-                                        throw new Error('Token validation failed. Logging out.');
-                              }
-                              return res.json();
-                    })
-                    .then(data => {
-                              if (data.authenticated) {
-                                        authLinks.style.display = "none";
-                logoutBtn.style.display = "inline-block";
-                              } else {
-                                        localStorage.removeItem('jwtToken');
-                                        authLinks.style.display = "inline-block";
-                                        logoutBtn.style.display = "none";
-                              }
-                    })
-                    .catch(err => {
-                              console.error("Authentication check failed:", err.message);
-                              authLinks.style.display = "inline-block";
-                              logoutBtn.style.display = "none";
-                    });
-          } else {
+     if (token) {
+          fetch("http://localhost:5000/recruiter/me", {
+               method: "GET",
+               headers: {
+                    'Authorization': `Bearer ${token}`
+               }
+          })
+               .then(res => {
+                    if (!res.ok) {
+                         localStorage.removeItem('jwtToken');
+                         throw new Error('Token validation failed. Logging out.');
+                    }
+                    return res.json();
+               })
+               .then(data => {
+                    if (data.authenticated) {
+                         authLinks.style.display = "none";
+                         logoutBtn.style.display = "inline-block";
+                    } else {
+                         localStorage.removeItem('jwtToken');
+                         authLinks.style.display = "inline-block";
+                         logoutBtn.style.display = "none";
+                    }
+               })
+               .catch(err => {
                     authLinks.style.display = "inline-block";
                     logoutBtn.style.display = "none";
-          }
+               });
+     } else {
+          authLinks.style.display = "inline-block";
+          logoutBtn.style.display = "none";
+     }
 
-          logoutBtn.addEventListener("click", (e) => {
-                    e.preventDefault(); 
-                    if (window.confirm("Do you want to logout from PortfolioHub?")) {
-                             localStorage.removeItem('jwtToken');
-                              window.location.reload();
-                    }
-          });
+     logoutBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (window.confirm("Do you want to logout from PortfolioHub?")) {
+               localStorage.removeItem('jwtToken');
+               window.location.reload();
+          }
+     });
 });
 
 

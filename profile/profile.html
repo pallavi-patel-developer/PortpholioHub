@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="profile.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e674bba739.js" crossorigin="anonymous"></script>
-    <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -20,21 +17,21 @@
         <div class="container">
             <nav>
                 <span class="qq">Welcome</span>
-                 <ul>
+                <ul>
                     <li><a href="../index.html">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#portfolio">Portfolio</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <i class="fas fa-times"></i>
-                 </ul>
+                </ul>
                 <i class="fas fa-bars"></i>
             </nav>
 
             <div class="header-text">
                 <p><span class="role" id="typer"> </p>
-                <h1>Hi, I'm <span class="fullName"></span><br> from  Jhansi</h1>
-                <img src=""  alt="">
+                <h1>Hi, I'm <span class="fullName"></span><br> from Jhansi</h1>
+                <img src="" alt="">
             </div>
             <div id="resume-btn">
                 <a href="" download class="btn btn2">Download Resume</a>
@@ -50,7 +47,7 @@
     <div id="about">
         <div class="container">
             <div class="row">
-             <div class="about-col-1" data-aos="fade-right">
+                <div class="about-col-1" data-aos="fade-right">
                     <img src="">
                 </div>
                 <div class="about-col-2" data-aos="fade-left">
@@ -67,7 +64,7 @@
                             <li><span></span><br></li>
                             <li><span></span><br></li>
                             <li><span></span></br></li>
-                               
+
                         </ul>
                     </div>
                     <div class="tab-contents" id="experience">
@@ -75,7 +72,7 @@
                             <li><span></span><br></li>
                             <li><span></span><br></li>
                             <li><span></span><br></li>
-                         </ul>
+                        </ul>
                     </div>
                     <div class="tab-contents" id="education">
                         <ul>
@@ -143,10 +140,10 @@
                         <a href=""><i class="fas fa-external-link-alt"></i></a>
                     </div>
                 </div>
-                </div>
             </div>
-            <a href="" class="btn">See more</a>
         </div>
+        <a href="" class="btn">See more</a>
+    </div>
     </div>
 
     <!-- ----------CONTACT---------- -->
@@ -182,104 +179,118 @@
     </div>
 
 
- 
-<!-- SCRIPTS -->
-  <!-- <script src="profile.js"></script> -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({ once: true, duration: 1000 });</script>
-  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
-  <div id="alertBox" class="alert" style="display: none;"></div>
-<!-- <script src="profile.js"></script> -->
+    <!-- SCRIPTS -->
+    <!-- <script src="profile.js"></script> -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 1000 });</script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-        alert("You must be logged in to view your profile.");
-        return;
-    }
+    <div id="alertBox" class="alert" style="display: none;"></div>
+    <!-- <script src="profile.js"></script> -->
 
-    try {
-        const response = await fetch('https://portpholiohub.onrender.com/profile', {
-           headers: { 'Authorization': `Bearer ${token}` } 
-        });
-        if (!response.ok) {
-            alert("Failed to load profile. Please log in again.");
-            return;
-        }
-        // const data = await response.json();
-         const responseData = await response.json(); // Get the full response { message, data }
-        const data = responseData.data; 
-   if (!data) {
-            alert("Portfolio data is missing. Please create your portfolio first.");
-            return;
-        }
-        // Full Name
-        const fullNameEl = document.querySelector('.fullName');
-        if (fullNameEl && data.fullName) fullNameEl.textContent = data.fullName;
-
-        // Role
-        const roleEl = document.getElementById('typer');
-        if (roleEl && data.role) roleEl.textContent = data.role;
-
-        // City (update in header h1)
-        const headerTextH1 = document.querySelector('.header-text h1');
-        if (headerTextH1 && data.fullName && data.city) {
-            headerTextH1.innerHTML = `Hi, I'm <span class="fullName">${data.fullName}</span><br> from ${data.city}`;
+    <script>
+        function openTab(tabName, event) {
+            document.querySelectorAll('.tab-links').forEach(link =>
+                link.classList.remove('active-link')
+            );
+            document.querySelectorAll('.tab-contents').forEach(content =>
+                content.classList.remove('active-tab')
+            );
+            event.currentTarget.classList.add('active-link');
+            document.getElementById(tabName).classList.add('active-tab');
         }
 
-        // Profile Photo (header image)
-        const headerImg = document.querySelector('.header-text img');
-        if (headerImg && data.photo) headerImg.src = data.photo;
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                alert("You must be logged in to view your profile.");
+                return;
+            }
 
-        // Resume Download Button
-        const resumeBtn = document.querySelector('#resume-btn a');
-        if (resumeBtn && data.resume) {
-            resumeBtn.href = data.resume;
-            resumeBtn.textContent = "Download Resume";
-        }
+            try {
+                const response = await fetch('http://localhost:5000/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    alert("Failed to load profile. Please log in again.");
+                    return;
+                }
+                const data = await response.json();
+                if (!data || !data._id) {
+                    alert("Portfolio data is missing. Please create your portfolio first.");
+                    return;
+                }
+                // Full Name
+                const fullNameEl = document.querySelector('.fullName');
+                if (fullNameEl && data.fullName) fullNameEl.textContent = data.fullName;
 
-        // About Me about-col-1
-           const aboutImg = document.querySelector('.about-col-1 img');
-        if (aboutImg && data.photo) aboutImg.src = data.photo;
+                // Role
+                const roleEl = document.getElementById('typer');
+                if (roleEl && data.role) roleEl.textContent = data.role;
 
-        const aboutMeP = document.querySelector('#about .about-col-2 p');
-        if (aboutMeP && data.aboutMe) aboutMeP.textContent = data.aboutMe;
+                // City (update in header h1)
+                const headerTextH1 = document.querySelector('.header-text h1');
+                if (headerTextH1 && data.fullName && data.city) {
+                    headerTextH1.innerHTML = `Hi, I'm <span class="fullName">${data.fullName}</span><br> from ${data.city}`;
+                }
 
-        // Skills
-        const skillsList = document.querySelector('#skills ul');
-        if (skillsList && data.skills && Array.isArray(data.skills)) {
-            skillsList.innerHTML = '';
-            data.skills.forEach(skill => {
-                skillsList.innerHTML += `<li><span>${skill.name}</span><br>${skill.description}</li>`;
-            });
-        }
+                // Profile Photo (header image)
+                const headerImg = document.querySelector('.header-text img');
+                if (headerImg && data.photo) headerImg.src = data.photo;
 
-        // Experience
-        const expList = document.querySelector('#experience ul');
-        if (expList && data.experience && Array.isArray(data.experience)) {
-            expList.innerHTML = '';
-            data.experience.forEach(exp => {
-                expList.innerHTML += `<li><span>${exp.start} - ${exp.end}</span><br>${exp.role} at ${exp.company}</li>`;
-            });
-        }
+                // Resume Download Button
+                const resumeBtn = document.querySelector('#resume-btn a');
+                if (resumeBtn && data.resume) {
+                    resumeBtn.href = data.resume;
+                    resumeBtn.textContent = "Download Resume";
+                }
 
-        // Education
-        const eduList = document.querySelector('#education ul');
-        if (eduList && data.education && Array.isArray(data.education)) {
-            eduList.innerHTML = '';
-            data.education.forEach(edu => {
-                eduList.innerHTML += `<li><span>${edu.year}</span><br>${edu.degree} at ${edu.college}</li>`;
-            });
-        }
+                // About Me about-col-1
+                const aboutImg = document.querySelector('.about-col-1 img');
+                if (aboutImg && data.photo) aboutImg.src = data.photo;
 
-        // Projects (Portfolio)
-        const workList = document.querySelector('.work-list');
-        if (workList && data.projects && Array.isArray(data.projects)) {
-            workList.innerHTML = '';
-            data.projects.forEach(project => {
-                workList.innerHTML += `
+                const aboutMeP = document.querySelector('#about .about-col-2 p');
+                if (aboutMeP && data.aboutMe) aboutMeP.textContent = data.aboutMe;
+
+                // Skills
+                const skillsList = document.querySelector('#skills ul');
+                if (skillsList && data.skills && Array.isArray(data.skills)) {
+                    skillsList.innerHTML = '';
+                    data.skills.forEach(skill => {
+                        skillsList.innerHTML += `<li><span>${skill.name}</span><br>${skill.description}</li>`;
+                    });
+                }
+
+                // Experience
+                const expList = document.querySelector('#experience ul');
+                if (expList && data.experience && Array.isArray(data.experience)) {
+                    expList.innerHTML = data.experience.map(exp =>
+                        `<li><span>${exp.start || ''} - ${exp.end || ''}</span><br>${exp.role || ''} at ${exp.company || ''}</li>`
+                    ).join('');
+                } else if (expList) {
+                    expList.innerHTML = '<li><span></span><br></li>';
+                }
+
+                // Education
+                const eduList = document.querySelector('#education ul');
+                if (eduList && data.education && Array.isArray(data.education)) {
+                    eduList.innerHTML = data.education.map(edu =>
+                        `<li><span>${edu.year || edu.graduationYear || ''}</span><br>${edu.degree || ''} at ${edu.college || edu.institute || ''}</li>`
+                    ).join('');
+                } else if (eduList) {
+                    eduList.innerHTML = '<li><span></span><br></li>';
+                }
+
+                // Projects (Portfolio)
+                const workList = document.querySelector('.work-list');
+                if (workList && data.projects && Array.isArray(data.projects)) {
+                    workList.innerHTML = '';
+                    data.projects.forEach(project => {
+                        workList.innerHTML += `
                     <div class="work">
                         <img src="${project.photo}" alt="image not found">
                         <div class="layer">
@@ -289,82 +300,83 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </div>
                 `;
-            });
-        }
+                    });
+                }
 
-        // Contact Details
-        const contactLeft = document.querySelector('.contact-left');
-        if (contactLeft && data.contactDetails) {
-            // Email
-            const emailP = contactLeft.querySelector('p:nth-child(2)');
-            if (emailP && data.contactDetails.contactEmail) {
-                emailP.innerHTML = `<i class="fas fa-paper-plane"></i>${data.contactDetails.contactEmail}`;
-            }
-            // Phone
-            const phoneP = contactLeft.querySelector('p:nth-child(3)');
-            if (phoneP && data.contactDetails.phone) {
-                phoneP.innerHTML = `<i class="fas fa-phone-square-alt"></i>${data.contactDetails.phone}`;
-            }
-            // Social links (update if you want)
+                // Contact Details
+                const contactLeft = document.querySelector('.contact-left');
+                if (contactLeft && data.contactDetails) {
+                    // Email
+                    const emailP = contactLeft.querySelector('p:nth-child(2)');
+                    if (emailP && data.contactDetails.contactEmail) {
+                        emailP.innerHTML = `<i class="fas fa-paper-plane"></i>${data.contactDetails.contactEmail}`;
+                    }
+                    // Phone
+                    const phoneP = contactLeft.querySelector('p:nth-child(3)');
+                    if (phoneP && data.contactDetails.phone) {
+                        phoneP.innerHTML = `<i class="fas fa-phone-square-alt"></i>${data.contactDetails.phone}`;
+                    }
+                    // Social links (update if you want)
 
-            // Download Resume Button in contact section
-            const contactResumeBtn = contactLeft.querySelector('a.btn2');
-            if (contactResumeBtn && data.resume) {
-                contactResumeBtn.href = data.resume;
-                contactResumeBtn.textContent = "Download Resume";
-            }
-        }
-    } catch (err) {
-        alert("Error loading profile. Please try again.");
-        console.error('Profile load error:', err);
-    }
-
-
-    // =============== contact in profile page-------------
-
-     // Contact form logic
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const name = contactForm.elements['Name'].value;
-            const email = contactForm.elements['Email'].value;
-            const message = contactForm.elements['Message'].value;
-
-            // Get userId from profile data
-            const token = localStorage.getItem('jwtToken');
-            const response = await fetch('https://portpholiohub.onrender.com/profile', {
-            headers: { 'Authorization': `Bearer ${token}` } 
-            });
-            const data = await response.json();
-            const userId = data.userId;
-            
-            try {
-                const res = await fetch('https://portpholiohub.onrender.com/send-contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId, name, email, message })
-                });
-                const result = await res.json();
-                console.log("Contact form submission response in profile:", result);
-                if (res.ok) {
-                    alert("Your message has been sent!");
-                    contactForm.reset();
-                } else {
-                    alert(result.message || "Failed to send message.");
+                    // Download Resume Button in contact section
+                    const contactResumeBtn = contactLeft.querySelector('a.btn2');
+                    if (contactResumeBtn && data.resume) {
+                        contactResumeBtn.href = data.resume;
+                        contactResumeBtn.textContent = "Download Resume";
+                    }
                 }
             } catch (err) {
-                alert("Network error. Please try again.");
+                alert("Error loading profile. Please try again.");
+                console.error('Profile load error:', err);
             }
+
+
+            // =============== contact in profile page-------------
+
+            // Contact form logic
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const name = contactForm.elements['Name'].value;
+                    const email = contactForm.elements['Email'].value;
+                    const message = contactForm.elements['Message'].value;
+
+                    // Get userId from profile data
+                    const token = localStorage.getItem('jwtToken');
+                    try {
+                        const response = await fetch('http://localhost:5000/profile', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        const data = await response.json();
+                        const userId = data.userId;
+
+                        if (data && data._id) {
+                            const res = await fetch('http://localhost:5000/send-contact', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ userId, name, email, message })
+                            });
+                            const result = await res.json();
+                            if (res.ok) {
+                                alert("Your message has been sent!");
+                                contactForm.reset();
+                            } else {
+                                alert(result.message || "Failed to send message.");
+                            }
+                        }
+                    } catch (err) {
+                        alert("Network error. Please try again.");
+                    }
+                });
+            }
+
+
         });
-    }
+    </script>
 
 
-});
-</script>
-
-    
 </body>
 
 </html>

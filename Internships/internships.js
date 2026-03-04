@@ -1,9 +1,5 @@
 let allJobs = [];
 
-// ===============================
-//  FILTERING LOGIC
-// ===============================
-
 function applyFilters() {
   const workTypeValue = document.getElementById('workType').value;
   const experienceValue = document.getElementById('experience').value;
@@ -11,24 +7,16 @@ function applyFilters() {
   const stipendValue = document.getElementById('stipend').value;
   const durationValue = document.getElementById('duration').value;
 
-  console.log("Selected Filters:", { workTypeValue, experienceValue, roleValue, stipendValue, durationValue });
-  if (allJobs.length > 0) {
-    console.log("Data structure of a job from the server:", allJobs[0]);
-  }
-
   const filteredJobs = allJobs.filter(job => {
     if (!job) return false;
 
-    // ✅ Normalize values for comparison
     const jobWorkType = job.workType ? job.workType.toLowerCase() : "";
     const jobExperience = job.experienceLevel ? job.experienceLevel.toLowerCase() : "";
     const jobTitle = job.title ? job.title.toLowerCase() : "";
 
-    // ✅ Extract numbers from stipend/duration
     const jobStipend = job.stipend ? parseInt(job.stipend.toString().replace(/\D/g, ""), 10) : 0;
     const jobDuration = job.duration ? parseInt(job.duration.toString().replace(/\D/g, ""), 10) : 0;
 
-    // ✅ Use normalized values for filtering
     const workTypeMatch = workTypeValue === 'all' || jobWorkType === workTypeValue.toLowerCase();
     const experienceMatch = experienceValue === 'all' || jobExperience === experienceValue.toLowerCase();
     const roleMatch = roleValue === 'all' || jobTitle.includes(roleValue.toLowerCase());
@@ -41,9 +29,6 @@ function applyFilters() {
   displayJobs(filteredJobs);
 }
 
-// ===============================
-// FILTER CHANGE LOGGING
-// ===============================
 const filterEls = [
   document.getElementById('workType'),
   document.getElementById('experience'),
@@ -53,14 +38,10 @@ const filterEls = [
 ];
 filterEls.forEach(el =>
   el.addEventListener('change', () => {
-    console.log(el.id + ' selected:', el.value);
-    applyFilters(); // 🔥 Re-apply filters whenever a filter changes
+    applyFilters();
   })
 );
 
-// ===============================
-// DRAWER LOGIC FOR MOBILE
-// ===============================
 const filters = document.getElementById('filters');
 const menuBtn = document.getElementById('menuBtn');
 const overlay = document.getElementById('drawerOverlay');
@@ -105,62 +86,51 @@ window.addEventListener('resize', syncForViewport);
 window.addEventListener('orientationchange', syncForViewport);
 syncForViewport();
 
-// ===============================
-// HELPER FUNCTIONS
-// ===============================
 function setButtonToApplied(button) {
   button.disabled = true;
   button.classList.add('applied');
   button.textContent = 'Applied';
-   button.style.backgroundColor = '#28a745'; // green
-  console.log(`✅ Button updated to Applied state for jobId=${button.dataset.jobId}`);
+  button.style.backgroundColor = '#28a745';
 }
-// Get userId safely from JWT payload
+
 function getUserIdFromToken() {
   const token = localStorage.getItem('jwtToken');
   if (!token) return null;
 
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.id || payload.userId || null; // adjust field based on backend
+    return payload.id || payload.userId || null;
   } catch (err) {
-    console.error("❌ Failed to decode JWT:", err);
     return null;
   }
 }
 
-// Fetch applied jobs from backend (JWT user only)
 async function getAppliedJobsFromDB() {
   const token = localStorage.getItem('jwtToken');
   if (!token) return [];
 
   try {
-    const res = await fetch('https://portpholiohub.onrender.com/myApplications', {
+    const res = await fetch('http://localhost:5000/myApplications', {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) throw new Error('Failed to fetch applied jobs');
     const apps = await res.json();
-      const appliedJobIds = apps.map(app => app.internshipId._id);
-    console.log("📥 Applied jobs fetched from DB:", appliedJobIds);
-     // Save in localStorage under user-specific key
+    const appliedJobIds = apps.map(app => app.internshipId._id);
     const userId = getUserIdFromToken();
     if (userId) {
       localStorage.setItem(`appliedJobs_${userId}`, JSON.stringify(appliedJobIds));
     }
     return appliedJobIds;
-    } catch (err) {
-    console.error('Error fetching applied jobs:', err);
+  } catch (err) {
     return [];
   }
 }
 
 function isJobApplied(internshipId) {
-    const userId = getUserIdFromToken();
+  const userId = getUserIdFromToken();
   if (!userId) return false;
- const appliedJobs = JSON.parse(localStorage.getItem(`appliedJobs_${userId}`)) || [];
-  const applied = appliedJobs.includes(internshipId);
-  console.log(`🔎 Checking isJobApplied(${internshipId})for user ${userId}:`, applied);
-  return applied;
+  const appliedJobs = JSON.parse(localStorage.getItem(`appliedJobs_${userId}`)) || [];
+  return appliedJobs.includes(internshipId);
 }
 
 async function updateAllButtonStates() {
@@ -175,28 +145,25 @@ async function updateAllButtonStates() {
   });
 }
 
-// ===============================
-// RENDER JOB CARD
-// ===============================
 function createJobCard(job) {
   const skillsHTML = job.skills
     .map(skill => `<span class="chip">${skill}</span>`)
     .join('');
 
-     const deadline = job.deadline ? new Date(job.deadline) : null;
+  const deadline = job.deadline ? new Date(job.deadline) : null;
   const today = new Date();
 
   let statusText = "Open";
-  let statusColor = "#09ff00ff"; // Green
+  let statusColor = "#09ff00ff";
   let buttonDisabled = false;
   let buttonText = "Apply Now";
-  let buttonBg = "#007bff"; // Default blue
+  let buttonBg = "#007bff";
 
 
   if (deadline && deadline < today) {
     statusText = "Closed";
     statusColor = "red";
-        buttonDisabled = true;
+    buttonDisabled = true;
     buttonText = "Closed";
     buttonBg = "red";
   }
@@ -235,90 +202,65 @@ function createJobCard(job) {
   `;
 }
 
-// ===============================
-// DISPLAY JOBS (New Reusable Function)
-// ===============================
 function displayJobs(jobsToDisplay) {
   const jobContainer = document.getElementById('jobDetails');
-  jobContainer.innerHTML = ''; // Clear previous jobs
+  jobContainer.innerHTML = '';
 
   if (jobsToDisplay.length === 0) {
     jobContainer.innerHTML =
       '<p>No internships found. Try adjusting your filters or check back later!</p>';
   } else {
-    // Loop through the jobs and create a card for each one
     jobsToDisplay.forEach(job => {
       jobContainer.innerHTML += createJobCard(job);
     });
 
-    // After rendering, update the "Apply" button states for the logged-in user
     updateAllButtonStates();
   }
 }
 
-// ===============================
-// FETCH & DISPLAY JOBS
-// ===============================
 async function fetchAndDisplayJobs() {
   const jobContainer = document.getElementById('jobDetails');
   jobContainer.innerHTML = '<p></p>';
 
   try {
-    const response = await fetch('https://portpholiohub.onrender.com/jobs');
+    const response = await fetch('http://localhost:5000/jobs');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const jobs = await response.json();
-// SORT INTERNSHIPS BY MOST RECENT
     jobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    allJobs = jobs; 
-
-    // jobContainer.innerHTML = '';
+    allJobs = jobs;
 
     if (jobs.length === 0) {
       jobContainer.innerHTML =
         '<p>No internships posted yet. Check back later!</p>';
     } else {
-      // jobs.forEach(job => {
-      //   jobContainer.innerHTML += createJobCard(job);
-      // });
       displayJobs(allJobs);
     }
   } catch (error) {
-    console.error('Error fetching jobs:', error);
     jobContainer.innerHTML =
       '<p class="error">Could not load jobs. Please try again later.</p>';
   }
 }
 
-// ===============================
-// LOCAL STORAGE HELPERS
-// ===============================
-
 function saveAppliedJob(internshipId) {
-   const userId = getUserIdFromToken();
+  const userId = getUserIdFromToken();
   if (!userId) return;
 
   let appliedJobs = JSON.parse(localStorage.getItem(`appliedJobs_${userId}`)) || [];
-  
+
   if (!appliedJobs.includes(internshipId)) {
     appliedJobs.push(internshipId);
     localStorage.setItem(`appliedJobs_${userId}`, JSON.stringify(appliedJobs));
-    console.log(`💾 Saved job ${internshipId} to user ${userId}.`);
-
   }
 
-   let applicantCounts = JSON.parse(localStorage.getItem('applicantCounts')) || {};
+  let applicantCounts = JSON.parse(localStorage.getItem('applicantCounts')) || {};
   applicantCounts[internshipId] = (applicantCounts[internshipId] || 0) + 1;
   localStorage.setItem('applicantCounts', JSON.stringify(applicantCounts));
-  console.log(`📊 Updated local applicant count for ${internshipId}:`, applicantCounts[internshipId]);
 }
 
 
-// ===============================
-// EVENT LISTENERS
-// ===============================
 document.addEventListener('DOMContentLoaded', () => {
   fetchAndDisplayJobs().then(() => {
-        const userId = getUserIdFromToken();
+    const userId = getUserIdFromToken();
     if (!userId) return;
 
     const appliedJobs = JSON.parse(localStorage.getItem(`appliedJobs_${userId}`)) || [];
@@ -330,14 +272,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-// ==============================
-// JOB APPLICATION HANDLER
-// ==============================
+
 document.addEventListener('click', async e => {
   if (e.target.matches('#jobDetails .apply')) {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      alert('❌ You must be logged in to apply.');
+      alert('You must be logged in to apply.');
       return;
     }
 
@@ -346,19 +286,18 @@ document.addEventListener('click', async e => {
     const card = applyButton.closest('.card');
     if (!card) return;
 
-       if (isJobApplied(internshipId)) {
-      alert('⚠️ Already applied for this job.');
+    if (isJobApplied(internshipId)) {
+      alert('Already applied for this job.');
       return;
     }
 
     const applicationData = { internshipId };
-    console.log('Applying for job:', applicationData);
 
     applyButton.disabled = true;
     applyButton.textContent = 'Applying...';
 
     try {
-      const response = await fetch('https://portpholiohub.onrender.com/applyInternship', {
+      const response = await fetch('http://localhost:5000/applyInternship', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -367,42 +306,31 @@ document.addEventListener('click', async e => {
         body: JSON.stringify(applicationData)
       });
 
-       const result = await response.json();
-             console.log("📤 Apply API response:", result);
-
+      const result = await response.json();
 
       if (response.ok) {
-        alert('✅ Application submitted successfully!');
+        alert('Application submitted successfully!');
         setButtonToApplied(applyButton);
         saveAppliedJob(internshipId);
 
         applyButton.textContent = 'Applied';
         applyButton.style.backgroundColor = '#28a745';
 
-        // Increment applicant count in backend
         try {
           await fetch(
-            `https://portpholiohub.onrender.com/jobs/${internshipId}/incrementApplicants`,
+            `http://localhost:5000/jobs/${internshipId}/incrementApplicants`,
             {
               method: 'PUT',
               headers: { Authorization: `Bearer ${token}` }
             }
           );
-          console.log(
-            `✅ Applicant count incremented for job ${internshipId}`
-          );
         } catch (err) {
-          console.error(
-            `❌ Failed to increment applicant count for ${internshipId}:`,
-            err
-          );
         }
       } else {
         throw new Error(result.message || 'Failed to apply.');
       }
     } catch (error) {
-      console.error('❌ Error submitting application:', error);
-      alert(`❌ Error: ${error.message}`);
+      alert(`Error: ${error.message}`);
       applyButton.disabled = false;
       applyButton.textContent = 'Apply Now';
     }

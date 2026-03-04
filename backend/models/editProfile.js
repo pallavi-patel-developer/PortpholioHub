@@ -1,20 +1,17 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-// Sub-schema for individual Education entries
 const educationSchema = new Schema({
     detail: { type: String },
     startDate: { type: Date },
     endDate: { type: Date }
 });
 
-// Sub-schema for individual Work items
 const workItemSchema = new Schema({
     image: { type: String }, // Stores the URL or path to the uploaded image
     description: { type: String }
 });
 
-// Sub-schema for individual Experience entries
 const experienceSchema = new Schema({
     role: { type: String },
     company: { type: String },
@@ -23,9 +20,7 @@ const experienceSchema = new Schema({
     description: { type: String }
 });
 
-// Main schema for the entire profile
 const editProfileSchema = new Schema({
-    // It's crucial to link the profile to a user account
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User', // Assumes you have a User model
@@ -33,12 +28,10 @@ const editProfileSchema = new Schema({
         unique: true
     },
     
-    // Profile Section
     profileImage: { type: String },
     fullName: { type: String },
     yearsOfExperience: { type: String },
 
-    // About Me Section
     role: { type: String },
     bio: { type: String },
 
@@ -58,7 +51,6 @@ const editProfileSchema = new Schema({
 
     experience: [experienceSchema],
 
-    // Resume Section
     resume: { type: String } 
 }, {
     timestamps: true

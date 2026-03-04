@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio - Contact Details</title>
   <link rel="stylesheet" href="form4.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
+
 <body>
 
   <a href="../index.html" class="brand-heading">PortpholioHub</a>
@@ -39,7 +41,8 @@
       <div class="contact-row">
         <div class="contact-input">
           <label>Phone no.</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter 10-digit Mobile Number" pattern="[0-9]{10}" maxlength="10" required />
+          <input type="tel" id="phone" name="phone" placeholder="Enter 10-digit Mobile Number" pattern="[0-9]{10}"
+            maxlength="10" required />
         </div>
         <div class="contact-input">
           <label>E-mail</label>
@@ -85,42 +88,54 @@
     </form>
     <div id="alertBox" class="alert" style="display:none;"></div>
   </div>
-<!-- <script src="form4.js"></script> -->
+  <!-- <script src="form4.js"></script> -->
 
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const contactForm = document.getElementById('contactForm');
-    const submitBtn = contactForm.querySelector('.save-btn');
-    const alertBox = document.getElementById('alertBox');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const contactForm = document.getElementById('contactForm');
+      const submitBtn = contactForm.querySelector('.save-btn');
+      const alertBox = document.getElementById('alertBox');
 
-    // Convert Data URL to File object
-    function dataURLtoFile(dataurl, filename) {
-    let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while(n--) u8arr[n] = bstr.charCodeAt(n);
-    return new File([u8arr], filename, {type:mime});
-}
+      // Convert Data URL to File object
+      function dataURLtoFile(dataurl, filename) {
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) u8arr[n] = bstr.charCodeAt(n);
+        return new File([u8arr], filename, { type: mime });
+      }
 
-    function showAlert(message, type = "success") {
+      function showAlert(message, type = "success") {
         alertBox.textContent = message;
         alertBox.className = `alert ${type}`;
         alertBox.style.display = 'block';
         setTimeout(() => {
-            alertBox.style.display = 'none';
+          alertBox.style.display = 'none';
         }, 4000);
-    }
+      }
+
+      // Pre-fill logic
+      const step4Data = JSON.parse(sessionStorage.getItem('portfolioStep4') || '{}');
+      if (step4Data) {
+        if (step4Data.phone) document.getElementById('phone').value = step4Data.phone;
+        if (step4Data.contactEmail) document.getElementById('email').value = step4Data.contactEmail;
+        if (step4Data.github) document.getElementsByName('github')[0].value = step4Data.github;
+        if (step4Data.linkedin) document.getElementsByName('linkedin')[0].value = step4Data.linkedin;
+        if (step4Data.instagram) document.getElementsByName('instagram')[0].value = step4Data.instagram;
+        if (step4Data.facebook) document.getElementsByName('facebook')[0].value = step4Data.facebook;
+      }
 
 
-    contactForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); 
-        
+
+      contactForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
         const token = localStorage.getItem('jwtToken');
         if (!token) {
-            return showAlert('Error: You are not logged in.', 'error');
+          return showAlert('Error: You are not logged in.', 'error');
         }
 
-        const finalFormData = new FormData(contactForm); 
+        const finalFormData = new FormData(contactForm);
 
         const step1Data = JSON.parse(sessionStorage.getItem('portfolioStep1') || '{}');
         const step2Data = JSON.parse(sessionStorage.getItem('portfolioStep2') || '{}');
@@ -142,62 +157,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Append photo and resume as files
         if (step1Data.photo) {
-            finalFormData.append('photo', dataURLtoFile(step1Data.photo, "profile.jpg"));
+          finalFormData.append('photo', dataURLtoFile(step1Data.photo, "profile.jpg"));
         }
         if (step1Data.resume) {
-            finalFormData.append('resume', dataURLtoFile(step1Data.resume, "resume.pdf"));
+          finalFormData.append('resume', dataURLtoFile(step1Data.resume, "resume.pdf"));
         }
-         if (step3Data.projects && step3Data.projects[0]?.photo) {
-        finalFormData.append('projectPhoto1', dataURLtoFile(step3Data.projects[0].photo, "project1.jpg"));
-    }
-    if (step3Data.projects && step3Data.projects[1]?.photo) {
-        finalFormData.append('projectPhoto2', dataURLtoFile(step3Data.projects[1].photo, "project2.jpg"));
-    }
-    if (step3Data.projects && step3Data.projects[2]?.photo) {
-        finalFormData.append('projectPhoto3', dataURLtoFile(step3Data.projects[2].photo, "project3.jpg"));
-    }
+        if (step3Data.projects && step3Data.projects[0]?.photo) {
+          finalFormData.append('projectPhoto1', dataURLtoFile(step3Data.projects[0].photo, "project1.jpg"));
+        }
+        if (step3Data.projects && step3Data.projects[1]?.photo) {
+          finalFormData.append('projectPhoto2', dataURLtoFile(step3Data.projects[1].photo, "project2.jpg"));
+        }
+        if (step3Data.projects && step3Data.projects[2]?.photo) {
+          finalFormData.append('projectPhoto3', dataURLtoFile(step3Data.projects[2].photo, "project3.jpg"));
+        }
 
         for (let i = 1; i <= 3; i++) {
-            const photoInput = document.getElementById(`photo${i}`);
-            if (photoInput && photoInput.files[0]) {
-                finalFormData.append(`projectPhoto${i}`, photoInput.files[0]);
-            }
+          const photoInput = document.getElementById(`photo${i}`);
+          if (photoInput && photoInput.files[0]) {
+            finalFormData.append(`projectPhoto${i}`, photoInput.files[0]);
+          }
         }
 
         try {
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Submitting...';
 
-            const response = await fetch('https://portpholiohub.onrender.com/forms', {
-                method: 'POST',
-                body: finalFormData,
-                  credentials: 'include',
-                headers: { Authorization: `Bearer ${token}` } ,
-            });
+          const response = await fetch(`http://localhost:5000/forms`, {
+            method: 'POST',
+            body: finalFormData,
+            credentials: 'include',
+            headers: { Authorization: `Bearer ${token}` },
+          });
 
-            const result = await response.json();
-            console.log("Final submission response in form4:", result);
-            if (response.ok) {
-                showAlert('Portfolio created successfully!', 'success');
-                sessionStorage.clear();
-                setTimeout(() => {
-                   window.location.href = '../index.html';
-                }, 2000);
-            } else {
-                showAlert(result.message || 'An error occurred.', 'error');
-            }
+          const result = await response.json();
+          if (response.ok) {
+            showAlert('Portfolio created successfully!', 'success');
+            sessionStorage.clear();
+            setTimeout(() => {
+              window.location.href = '../index.html';
+            }, 2000);
+          } else {
+            showAlert(result.message || 'An error occurred.', 'error');
+          }
 
         } catch (error) {
-            console.error("Final submission error:", error);
-            showAlert("A network error occurred. Please check the console.", "error");
+          console.error("Final submission error:", error);
+          showAlert("A network error occurred. Please check the console.", "error");
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Portfolio';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Portfolio';
         }
+      });
     });
-});
 
- </script>
+  </script>
 
 </body>
+
 </html>

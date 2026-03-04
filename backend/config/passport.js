@@ -11,11 +11,9 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // Check if user already exists
         let user = await UserIntern.findOne({ googleId: profile.id });
 
         if (!user) {
-          // Create new user in MongoDB
           user = new UserIntern({
             googleId: profile.id,
             username: profile.displayName,
@@ -34,7 +32,6 @@ passport.use(
   )
 );
 
-// Required for persistent login sessions
 passport.serializeUser((user, done) => {
   done(null, user.id); // serialize Mongo _id instead of whole user object
 });

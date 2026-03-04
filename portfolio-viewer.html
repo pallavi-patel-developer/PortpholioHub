@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="profile/profile.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e674bba739.js" crossorigin="anonymous"></script>
-    <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -20,21 +17,21 @@
         <div class="container">
             <nav>
                 <span class="qq">Welcome</span>
-            <ul>
+                <ul>
                     <!-- <li><a href="../index.html">Home</a></li> -->
                     <li><a href="#about">About</a></li>
                     <!-- <li><a href="#services">Services</a></li> -->
                     <li><a href="#portfolio">Portfolio</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <i class="fas fa-times"></i>
-                 </ul> 
+                </ul>
                 <!-- <i class="fas fa-bars"></i> -->
             </nav>
 
             <div class="header-text">
                 <p><span class="role" id="typer"> </p>
-                <h1>Hi, I'm <span class="fullName"></span><br> from  Jhansi</h1>
-                <img src=""  alt="">
+                <h1>Hi, I'm <span class="fullName"></span><br> from Jhansi</h1>
+                <img src="" alt="">
             </div>
             <div id="resume-btn">
                 <a href="" download class="btn btn2">Download Resume</a>
@@ -50,7 +47,7 @@
     <div id="about">
         <div class="container">
             <div class="row">
-             <div class="about-col-1" data-aos="fade-right">
+                <div class="about-col-1" data-aos="fade-right">
                     <img src="">
                 </div>
                 <div class="about-col-2" data-aos="fade-left">
@@ -67,7 +64,7 @@
                             <li><span></span><br></li>
                             <li><span></span><br></li>
                             <li><span></span></br></li>
-                               
+
                         </ul>
                     </div>
                     <div class="tab-contents" id="experience">
@@ -75,7 +72,7 @@
                             <li><span></span><br></li>
                             <li><span></span><br></li>
                             <li><span></span><br></li>
-                         </ul>
+                        </ul>
                     </div>
                     <div class="tab-contents" id="education">
                         <ul>
@@ -143,10 +140,10 @@
                         <a href=""><i class="fas fa-external-link-alt"></i></a>
                     </div>
                 </div>
-                </div>
             </div>
-            <a href="" class="btn">See more</a>
         </div>
+        <a href="" class="btn">See more</a>
+    </div>
     </div>
 
     <!-- ----------CONTACT---------- -->
@@ -180,75 +177,75 @@
             <p>copyright @Vedseem Info Tech Pvt Ltd<i class="fas fa-heart"></i> by </p>
         </div>
     </div>
-<!-- SCRIPTS -->
-  <!-- <script src="profile.js"></script> -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({ once: true, duration: 1000 });</script>
-  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- SCRIPTS -->
+    <!-- <script src="profile.js"></script> -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 1000 });</script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
-  <div id="alertBox" class="alert" style="display: none;"></div>
+    <div id="alertBox" class="alert" style="display: none;"></div>
     <script>
-    // ======================================================
-    //               REUSABLE DISPLAY FUNCTION
-    // ======================================================
-    function populateProfile(data) {
-        if (!data) {
-            document.body.innerHTML = "<h1>Portfolio not found or is incomplete.</h1>";
-            return;
-        }
+        // ======================================================
+        //               REUSABLE DISPLAY FUNCTION
+        // ======================================================
+        function populateProfile(data) {
+            if (!data) {
+                document.body.innerHTML = "<h1>Portfolio not found or is incomplete.</h1>";
+                return;
+            }
 
-        // Full Name & Header Text
-        const headerTextH1 = document.querySelector('.header-text h1');
-        if (headerTextH1 && data.fullName && data.city) {
-            headerTextH1.innerHTML = `Hi, I'm <span class="fullName">${data.fullName}</span><br> from ${data.city}`;
-        }
+            // Full Name & Header Text
+            const headerTextH1 = document.querySelector('.header-text h1');
+            if (headerTextH1 && data.fullName && data.city) {
+                headerTextH1.innerHTML = `Hi, I'm <span class="fullName">${data.fullName}</span><br> from ${data.city}`;
+            }
 
-        // Role
-        document.getElementById('typer').textContent = data.role || '';
+            // Role
+            document.getElementById('typer').textContent = data.role || '';
 
-        // Profile Photos
-        if (data.photo) {
-            document.querySelector('.header-text img').src = data.photo;
-            document.querySelector('.about-col-1 img').src = data.photo;
-        }
+            // Profile Photos
+            if (data.photo) {
+                document.querySelector('.header-text img').src = data.photo;
+                document.querySelector('.about-col-1 img').src = data.photo;
+            }
 
-        // Resume Links
-        if (data.resume) {
-            document.querySelector('#resume-btn a').href = data.resume;
-            document.querySelector('#contact .contact-left a.btn2').href = data.resume;
-        }
+            // Resume Links
+            if (data.resume) {
+                document.querySelector('#resume-btn a').href = data.resume;
+                document.querySelector('#contact .contact-left a.btn2').href = data.resume;
+            }
 
-        // About Me Text
-        document.querySelector('#about .about-col-2 p').textContent = data.aboutMe || '';
+            // About Me Text
+            document.querySelector('#about .about-col-2 p').textContent = data.aboutMe || '';
 
-        // Skills
-        const skillsList = document.querySelector('#skills ul');
-        if (skillsList && Array.isArray(data.skills)) {
-            skillsList.innerHTML = data.skills.map(skill => 
-                `<li><span>${skill.name || skill}</span><br>${skill.description || ''}</li>`
-            ).join('');
-        }
+            // Skills
+            const skillsList = document.querySelector('#skills ul');
+            if (skillsList && Array.isArray(data.skills)) {
+                skillsList.innerHTML = data.skills.map(skill =>
+                    `<li><span>${skill.name || skill}</span><br>${skill.description || ''}</li>`
+                ).join('');
+            }
 
-        // Experience
-        const expList = document.querySelector('#experience ul');
-        if (expList && Array.isArray(data.experience)) {
-            expList.innerHTML = data.experience.map(exp => 
-                `<li><span>${exp.start} - ${exp.end}</span><br>${exp.role} at ${exp.company}</li>`
-            ).join('');
-        }
+            // Experience
+            const expList = document.querySelector('#experience ul');
+            if (expList && Array.isArray(data.experience)) {
+                expList.innerHTML = data.experience.map(exp =>
+                    `<li><span>${exp.start} - ${exp.end}</span><br>${exp.role} at ${exp.company}</li>`
+                ).join('');
+            }
 
-        // Education
-        const eduList = document.querySelector('#education ul');
-        if (eduList && Array.isArray(data.education)) {
-            eduList.innerHTML = data.education.map(edu => 
-                `<li><span>${edu.year}</span><br>${edu.degree} at ${edu.college}</li>`
-            ).join('');
-        }
+            // Education
+            const eduList = document.querySelector('#education ul');
+            if (eduList && Array.isArray(data.education)) {
+                eduList.innerHTML = data.education.map(edu =>
+                    `<li><span>${edu.year}</span><br>${edu.degree} at ${edu.college}</li>`
+                ).join('');
+            }
 
-        // Projects (My Works)
-        const workList = document.querySelector('.work-list');
-        if (workList && Array.isArray(data.projects)) {
-            workList.innerHTML = data.projects.map(project => `
+            // Projects (My Works)
+            const workList = document.querySelector('.work-list');
+            if (workList && Array.isArray(data.projects)) {
+                workList.innerHTML = data.projects.map(project => `
                 <div class="work">
                     <img src="${project.photo}" alt="${project.name || 'Project image'}">
                     <div class="layer">
@@ -258,64 +255,72 @@
                     </div>
                 </div>
             `).join('');
-        }
-
-        // Contact Details
-        const contactLeft = document.querySelector('.contact-left');
-        if (contactLeft && data.contactDetails) {
-            const emailP = contactLeft.querySelector('p:nth-child(2)');
-            if (emailP) emailP.innerHTML = `<i class="fas fa-paper-plane"></i>${data.contactDetails.contactEmail || ''}`;
-            
-            const phoneP = contactLeft.querySelector('p:nth-child(3)');
-            if (phoneP) phoneP.innerHTML = `<i class="fas fa-phone-square-alt"></i>${data.contactDetails.phone || ''}`;
-        }
-    }
-
-    // ======================================================
-    //             MAIN LOGIC TO LOAD PROFILE
-    // ======================================================
-    document.addEventListener('DOMContentLoaded', async () => {
-        const params = new URLSearchParams(window.location.search);
-        const portfolioId = params.get('id');
-
-        if (!portfolioId) {
-            document.body.innerHTML = "<h1>No portfolio ID provided.</h1>";
-            return;
-        }
-
-        try {
-            // Fetch the specific profile using the ID from the URL
-            const response = await fetch(`https://portpholiohub.onrender.com/profile/${portfolioId}`);
-            
-            if (!response.ok) {
-                throw new Error('Portfolio could not be loaded.');
             }
-            
-            const profileData = await response.json();
-            
-            // Use the reusable function to display all the data
-            populateProfile(profileData);
 
-        } catch (err) {
-            console.error('Profile load error:', err);
-            document.body.innerHTML = `<h1>Error: ${err.message}</h1>`;
+            // Contact Details
+            const contactLeft = document.querySelector('.contact-left');
+            if (contactLeft && data.contactDetails) {
+                const emailP = contactLeft.querySelector('p:nth-child(2)');
+                if (emailP) emailP.innerHTML = `<i class="fas fa-paper-plane"></i>${data.contactDetails.contactEmail || ''}`;
+
+                const phoneP = contactLeft.querySelector('p:nth-child(3)');
+                if (phoneP) phoneP.innerHTML = `<i class="fas fa-phone-square-alt"></i>${data.contactDetails.phone || ''}`;
+            }
         }
-    });
 
-    // ======================================================
-    //             TAB SWITCHING FUNCTIONALITY
-    // ======================================================
-    function openTab(tabName, event) {
-        document.querySelectorAll('.tab-links').forEach(link =>
-            link.classList.remove('active-link')
-        );
-        document.querySelectorAll('.tab-contents').forEach(content =>
-            content.classList.remove('active-tab')
-        );
-        event.currentTarget.classList.add('active-link');
-        document.getElementById(tabName).classList.add('active-tab');
-    }
-</script>
+        // ======================================================
+        //             MAIN LOGIC TO LOAD PROFILE
+        // ======================================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const portfolioId = params.get('id');
+
+            try {
+                let response;
+                if (portfolioId) {
+                    // Fetch the specific profile using the ID from the URL
+                    response = await fetch(`http://localhost:5000/profile/${portfolioId}`);
+                } else {
+                    // Fallback to fetch logged-in user's own profile
+                    const token = localStorage.getItem('jwtToken');
+                    if (!token) {
+                        document.body.innerHTML = "<h2 style='color: red; font-size: 20px; font-weight: 700; text-align: center; margin-top: 50px;'>PLEASE LOG IN TO VIEW PORTFOLIO</h2>";
+                        return;
+                    }
+                    response = await fetch(`http://localhost:5000/profile`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                }
+
+                if (!response.ok) {
+                    throw new Error('Portfolio could not be loaded.');
+                }
+
+                const profileData = await response.json();
+
+                // Use the reusable function to display all the data
+                populateProfile(profileData);
+
+            } catch (err) {
+                console.error('Profile load error:', err);
+                document.body.innerHTML = `<h1>Error: ${err.message}</h1>`;
+            }
+        });
+
+        // ======================================================
+        //             TAB SWITCHING FUNCTIONALITY
+        // ======================================================
+        function openTab(tabName, event) {
+            document.querySelectorAll('.tab-links').forEach(link =>
+                link.classList.remove('active-link')
+            );
+            document.querySelectorAll('.tab-contents').forEach(content =>
+                content.classList.remove('active-tab')
+            );
+            event.currentTarget.classList.add('active-link');
+            document.getElementById(tabName).classList.add('active-tab');
+        }
+    </script>
 
 
 </body>

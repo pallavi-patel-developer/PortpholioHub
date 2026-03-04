@@ -13,7 +13,6 @@ const PostJobSchema = new mongoose.Schema({
   skills: [{ type: String }], // array of skills
   deadline: { type: Date, required: true },
 
-  // recruiter info (optional, for tracking)
   postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Recruiter" },
 
   createdAt: { type: Date, default: Date.now } , 

@@ -1,4 +1,3 @@
-//  EDIT PROFILE - ABOUT SCHEMA
 
 const mongoose = require('mongoose');
 const aboutSchema = new mongoose.Schema({

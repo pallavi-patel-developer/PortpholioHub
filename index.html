@@ -1,119 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PortfolioHub</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"
+    integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
 </head>
+
 <body>
-<!-- Cursor -->
-<div id="cursor"></div>
-<div id="cursorblur"></div>  
-<div id="main-wrapper">
+  <!-- Cursor -->
+  <div id="cursor"></div>
+  <div id="cursorblur"></div>
+  <div id="main-wrapper">
     <header class="navbar">
-  <a href="index.html" class="logo">
-  <img src="resources/logo.png" alt="PortfolioHub Logo">
-</a>
+      <a href="index.html" class="logo">
+        <img src="resources/logo.png" alt="PortfolioHub Logo">
+      </a>
 
-<!-- Hamburger Menu Icon -->
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <!-- =====================  N A V    B A R  ================== -->
-
-   <nav class="nav-links" id="nav-links">
-     <a href="index.html">Home</a>
-    <a href="form/form.html">Build Portfolio</a>
-    <a href="Internships/internships.html" class="protected-link">Internships</a>
-  <!-- Auth links -->
-  <span id="auth-links">
-    <a href="intern signup/intern-signup.html" id="signup-link">Sign Up</a>
-    <a href="login/login.html" id="login-link">Login</a>
-  </span>
-
-  <!-- Logout (hidden initially) -->
-  <a id="logout-btn" style="display:none; cursor: pointer;">Logout</a>
-   </nav>
-
-
-</header>
-<!-- फो -->
-  <main class="hero">
-    <div class="overlay"></div>
-    <div class="hero-content">
-      <div class="hero-text">
-        <h1><span class="highlight-blue">Elevate</span> Your Career<br>with your <span class="highlight-blue">Portfolio</span></h1>
-        <p>Welcome to PortfolioHub, where professionals like you can display your projects in a captivating way. Our platform blends creativity with functionality, helping you stand out in a competitive job market.</p>
+      <!-- Hamburger Menu Icon -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-      <div id="right-content">
-      <div id="sidebar">
-        <a id="my-projects" href="profile/profile.html" class="protected-link">Portfolio</a>
-        <a id="networking" href="intern dashboard/studash.html" class="protected-link">Dashboard</a>
-        <a id="contactus" href="contact/contact.html">Contact Us</a>
-      </div>
-     </div>
-    </div>
-  </main>
-  
- <!-- How it works  -->
-  <section class="hiw-section">
-  <div class="hiw-container">
-    <div class="hiw-image" data-aos="fade-right">
-      <img src="resources/how it works girl.png" alt="How it works">
-    </div>
 
-    <div class="hiw-text" data-aos="fade-left">
-      <div class="hiw-title">How It Works</div>
+      <!-- =====================  N A V    B A R  ================== -->
 
-      <div class="hiw-step">
-        <div class="hiw-icon"><i class="fas fa-star"></i></div>
-        <div class="hiw-details">
-          <h4>Create an Account</h4>
-          <p>Sign up as a Job Seeker or an Employer—it's quick and free.</p>
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="form/form.html">Build Portfolio</a>
+        <a href="Internships/internships.html" class="protected-link">Internships</a>
+        <!-- Auth links -->
+        <span id="auth-links">
+          <a href="intern signup/intern-signup.html" id="signup-link">Sign Up</a>
+          <a href="login/login.html" id="login-link">Login</a>
+        </span>
+
+        <!-- Logout (hidden initially) -->
+        <a id="logout-btn" style="display:none; cursor: pointer;">Logout</a>
+      </nav>
+
+
+    </header>
+    <!-- फो -->
+    <main class="hero">
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1><span class="highlight-blue">Elevate</span> Your Career<br>with your <span
+              class="highlight-blue">Portfolio</span></h1>
+          <p>Welcome to PortfolioHub, where professionals like you can display your projects in a captivating way. Our
+            platform blends creativity with functionality, helping you stand out in a competitive job market.</p>
+        </div>
+        <div id="right-content">
+          <div id="sidebar">
+            <a id="my-projects" href="profile/profile.html" class="protected-link">Portfolio</a>
+            <a id="networking" href="intern dashboard/studash.html" class="protected-link">Dashboard</a>
+            <a id="contactus" href="contact/contact.html">Contact Us</a>
+          </div>
         </div>
       </div>
+    </main>
 
-      <div class="hiw-step">
-        <div class="hiw-icon"><i class="fas fa-star"></i></div>
-        <div class="hiw-details">
-          <h4>Explore & Post Opportunities</h4>
-          <p>Browse jobs or post listings to reach the right candidates.</p>
+    <!-- How it works  -->
+    <section class="hiw-section">
+      <div class="hiw-container">
+        <div class="hiw-image" data-aos="fade-right">
+          <img src="resources/how it works girl.png" alt="How it works">
+        </div>
+
+        <div class="hiw-text" data-aos="fade-left">
+          <div class="hiw-title">How It Works</div>
+
+          <div class="hiw-step">
+            <div class="hiw-icon"><i class="fas fa-star"></i></div>
+            <div class="hiw-details">
+              <h4>Create an Account</h4>
+              <p>Sign up as a Job Seeker or an Employer—it's quick and free.</p>
+            </div>
+          </div>
+
+          <div class="hiw-step">
+            <div class="hiw-icon"><i class="fas fa-star"></i></div>
+            <div class="hiw-details">
+              <h4>Explore & Post Opportunities</h4>
+              <p>Browse jobs or post listings to reach the right candidates.</p>
+            </div>
+          </div>
+
+          <div class="hiw-step">
+            <div class="hiw-icon"><i class="fas fa-star"></i></div>
+            <div class="hiw-details">
+              <h4>Apply or Review Applicants</h4>
+              <p>Apply instantly or filter, review, and shortlist applicants.</p>
+            </div>
+          </div>
+
+          <div class="hiw-step">
+            <div class="hiw-icon"><i class="fas fa-star"></i></div>
+            <div class="hiw-details">
+              <h4>Connect & Hire</h4>
+              <p>Chat, schedule interviews, and hire the perfect match.</p>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="hiw-step">
-        <div class="hiw-icon"><i class="fas fa-star"></i></div>
-        <div class="hiw-details">
-          <h4>Apply or Review Applicants</h4>
-          <p>Apply instantly or filter, review, and shortlist applicants.</p>
-        </div>
-      </div>
-
-      <div class="hiw-step">
-        <div class="hiw-icon"><i class="fas fa-star"></i></div>
-        <div class="hiw-details">
-          <h4>Connect & Hire</h4>
-          <p>Chat, schedule interviews, and hire the perfect match.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
 
-<!-- Candidate Directory Start -->
+    <!-- Candidate Directory Start -->
 
-<!-- <div id="talents"><h3>Talents</h3></div>
+    <!-- <div id="talents"><h3>Talents</h3></div>
 <div class="filters">
   <div class="dropdown">
     <button>Location ▼</button>
@@ -162,9 +169,9 @@
   </div>
 </div> -->
 
-<!-- ===================  TELENTS SECTION ================== -->
- 
-<!-- <div class="grid">
+    <!-- ===================  TELENTS SECTION ================== -->
+
+    <!-- <div class="grid">
   <div class="card">
     <div class="card-header">
       <img src="https://www.shutterstock.com/image-photo/positive-young-indian-woman-student-260nw-2385200433.jpg" alt="Profile" class="profile-pic">
@@ -310,7 +317,7 @@
   </div>
 </div> -->
 
-<!-- <div class="pagination">
+    <!-- <div class="pagination">
     <a href="#" class="active">1</a>
     <a href="#">2</a>
     <a href="#">3</a>
@@ -319,199 +326,204 @@
     <a href="#" class="arrow"><i class="ri-arrow-drop-right-line"></i></a>
 </div> -->
 
-<!-- Choose us -->
-  <section class="why-choose-us">
-    <div class="container">
-      <h1 class="animate-on-scroll">Why Choose Us?</h1>
-      <div class="grid">
-        <div class="card animate-on-scroll">
-          <span class="icon">🔍</span>
-          <h3>Curated Job Matches</h3>
-          <p>Our smart algorithm connects job seekers with the most relevant roles—no endless scrolling, just real opportunities.</p>
-        </div>
-        <div class="card animate-on-scroll">
-          <span class="icon">⏱️</span>
-          <h3>Fast & Transparent Hiring</h3>
-          <p>We prioritize speed, simplicity, and communication so both employers and job seekers stay in the loop at every stage.</p>
-        </div>
-        <div class="card animate-on-scroll">
-          <span class="icon">🛡️</span>
-          <h3>Verified Employers & Talent</h3>
-          <p>Every profile is screened to ensure authenticity and professionalism on both sides.</p>
-        </div>
-        <div class="card animate-on-scroll">
-          <span class="icon">🧭</span>
-          <h3>Built for Every Career Stage</h3>
-          <p>From entry-level to executive, freelance to full-time—we've got something for everyone.</p>
-        </div>
-        <div class="card animate-on-scroll">
-          <span class="icon">📊</span>
-          <h3>All-in-One Dashboard</h3>
-          <p>Manage everything—applications, interviews, saved jobs, and candidate tracking—in one powerful, easy-to-use dashboard.</p>
-        </div>
-        <div class="card animate-on-scroll">
-          <span class="icon">🌍</span>
-          <h3>Global Opportunities</h3>
-          <p>Access jobs and talent worldwide, while filtering for region-specific relevance and cultural fit.</p>
+    <!-- Choose us -->
+    <section class="why-choose-us">
+      <div class="container">
+        <h1 class="animate-on-scroll">Why Choose Us?</h1>
+        <div class="grid">
+          <div class="card animate-on-scroll">
+            <span class="icon">🔍</span>
+            <h3>Curated Job Matches</h3>
+            <p>Our smart algorithm connects job seekers with the most relevant roles—no endless scrolling, just real
+              opportunities.</p>
+          </div>
+          <div class="card animate-on-scroll">
+            <span class="icon">⏱️</span>
+            <h3>Fast & Transparent Hiring</h3>
+            <p>We prioritize speed, simplicity, and communication so both employers and job seekers stay in the loop at
+              every stage.</p>
+          </div>
+          <div class="card animate-on-scroll">
+            <span class="icon">🛡️</span>
+            <h3>Verified Employers & Talent</h3>
+            <p>Every profile is screened to ensure authenticity and professionalism on both sides.</p>
+          </div>
+          <div class="card animate-on-scroll">
+            <span class="icon">🧭</span>
+            <h3>Built for Every Career Stage</h3>
+            <p>From entry-level to executive, freelance to full-time—we've got something for everyone.</p>
+          </div>
+          <div class="card animate-on-scroll">
+            <span class="icon">📊</span>
+            <h3>All-in-One Dashboard</h3>
+            <p>Manage everything—applications, interviews, saved jobs, and candidate tracking—in one powerful,
+              easy-to-use dashboard.</p>
+          </div>
+          <div class="card animate-on-scroll">
+            <span class="icon">🌍</span>
+            <h3>Global Opportunities</h3>
+            <p>Access jobs and talent worldwide, while filtering for region-specific relevance and cultural fit.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
 
-<!-- Testimonials Section -->
-<section id="testimonials-section">
-  <h2 id="testimonials-heading">Testimonials</h2>
+    <!-- Testimonials Section -->
+    <section id="testimonials-section">
+      <h2 id="testimonials-heading">Testimonials</h2>
 
-  <div id="testimonials-wrapper">
-    <div id="testimonial1" class="testimonial-card">
-      <div id="card">
-      <img src="https://i.pinimg.com/736x/29/92/9a/29929a22b5ec1786d35f3c2ee9f42e3d.jpg" alt="Alex Morgan" />
-      <div id="c-text">
-      <strong>Ishan Kushwaha</strong>
-      <p><i>Creative Director</i></p>
-      </div>
-      </div>
-      <p>"PortfolioHub provided a valuable internship experience with hands-on projects and professional growth."</p>
-    </div>
+      <div id="testimonials-wrapper">
+        <div id="testimonial1" class="testimonial-card">
+          <div id="card">
+            <img src="https://i.pinimg.com/736x/29/92/9a/29929a22b5ec1786d35f3c2ee9f42e3d.jpg" alt="Alex Morgan" />
+            <div id="c-text">
+              <strong>Ishan Kushwaha</strong>
+              <p><i>Creative Director</i></p>
+            </div>
+          </div>
+          <p>"PortfolioHub provided a valuable internship experience with hands-on projects and professional growth."
+          </p>
+        </div>
 
 
-     <div id="testimonial2" class="testimonial-card">
-      <div id="card">
-      <img src="https://i.pinimg.com/736x/9d/a6/c2/9da6c2af262b12714610c99c98813a8e.jpg" alt="Jordan Smith" />
-      <div id="c-text">
-      <strong>Aditi Oberoi</strong>
-      <p><i>Freelance Designer</i></p>
-      </div>
-      </div>
-      <p>"The supportive team and real-world exposure made it a great start to my career."</p>
-    </div>
+        <div id="testimonial2" class="testimonial-card">
+          <div id="card">
+            <img src="https://i.pinimg.com/736x/9d/a6/c2/9da6c2af262b12714610c99c98813a8e.jpg" alt="Jordan Smith" />
+            <div id="c-text">
+              <strong>Aditi Oberoi</strong>
+              <p><i>Freelance Designer</i></p>
+            </div>
+          </div>
+          <p>"The supportive team and real-world exposure made it a great start to my career."</p>
+        </div>
 
-    <div id="testimonial3" class="testimonial-card">
-      <div id="card">
-      <img src="https://i.pinimg.com/736x/fd/86/a4/fd86a418e773b19226ca204f176db3b8.jpg" alt="Taylor Johnson" />
-      <div id="c-text">
-      <strong>Kunal Sahu</strong>
-      <p><i>Project Manager</i></p>
+        <div id="testimonial3" class="testimonial-card">
+          <div id="card">
+            <img src="https://i.pinimg.com/736x/fd/86/a4/fd86a418e773b19226ca204f176db3b8.jpg" alt="Taylor Johnson" />
+            <div id="c-text">
+              <strong>Kunal Sahu</strong>
+              <p><i>Project Manager</i></p>
+            </div>
+          </div>
+          <p>"PortfolioHub offered an enriching internship with practical learning and mentorship."</p>
+        </div>
       </div>
+
+      <div id="viewall-wrapper">
+        <button id="viewall-btn">View All</button>
       </div>
-      <p>"PortfolioHub offered an enriching internship with practical learning and mentorship."</p>
-    </div>
+    </section>
+
+
+    <!-- <Footer> -->
+    <footer id="main-footer">
+      <div id="footer-left">
+        <h3 id="footer-brand">PortfolioHub.</h3>
+        <p id="footer-tagline"><strong>Showcasing Your Talent.</strong></p>
+        <div id="footer-social">
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-behance"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+
+      <div id="footer-right">
+        <div id="footer-links-1">
+          <a href="index.html">Home</a>
+          <a href="showcase/showcase.html">Showcase</a>
+          <a href="dashboard/dashboard.html">Projects</a>
+          <a href="#">Careers</a>
+          <a href="contact/contact.html">Contact us</a>
+        </div>
+        <div id="footer-links-2">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Copyright</a>
+        </div>
+      </div>
+    </footer>
+
+
   </div>
 
-  <div id="viewall-wrapper">
-    <button id="viewall-btn">View All</button>
-  </div>
-</section>
 
-
-<!-- <Footer> -->
-<footer id="main-footer">
-  <div id="footer-left">
-    <h3 id="footer-brand">PortfolioHub.</h3>
-    <p id="footer-tagline"><strong>Showcasing Your Talent.</strong></p>
-    <div id="footer-social">
-      <a href="#"><i class="fab fa-linkedin-in"></i></a>
-      <a href="#"><i class="fab fa-behance"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-    </div>
-  </div>
-
-  <div id="footer-right">
-    <div id="footer-links-1">
-      <a href="index.html">Home</a>
-      <a href="showcase/showcase.html">Showcase</a>
-      <a href="dashboard/dashboard.html">Projects</a>
-      <a href="#">Careers</a>
-      <a href="contact/contact.html">Contact us</a>
-    </div>
-    <div id="footer-links-2">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Copyright</a>
-    </div>
-  </div>
-</footer>
-
-
-</div>
-
-  
 
   <script src="script.js"></script>
 
   <!--  ============== AUTHENTICATION OF LOGOUT ================ -->
-    <script> 
-document.addEventListener("DOMContentLoaded", () => {
-  // Find the HTML elements
-  const authLinks = document.getElementById("auth-links");
-  const logoutBtn = document.getElementById("logout-btn");
-  
-  // 1. CHECK FOR JWT IN LOCAL STORAGE
-  const token = localStorage.getItem('jwtToken');
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Find the HTML elements
+      const authLinks = document.getElementById("auth-links");
+      const logoutBtn = document.getElementById("logout-btn");
 
-  if (token) {
-    fetch("https://portpholiohub.onrender.com/me", {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${token}` 
-      }
-    })
-    .then(res => {
-        if (!res.ok) {
-            throw new Error('Token validation failed');
-        }
-        return res.json();
-    })
-    .then(data => {
-      if (data.authenticated) {
-        // Show the 'Logout' button
-        authLinks.style.display = "none";
-        logoutBtn.style.display = "inline-block";
-      }
-    })
-    .catch(err => {
-      console.error("Authentication check failed:", err);
-      localStorage.removeItem('jwtToken');
-      authLinks.style.display = "inline-block";
-      logoutBtn.style.display = "none";
-    });
-  } else {
-    authLinks.style.display = "inline-block";
-    logoutBtn.style.display = "none";
-  }
+      // 1. CHECK FOR JWT IN LOCAL STORAGE
+      const token = localStorage.getItem('jwtToken');
 
-  // 2. HANDLE LOGOUT BUTTON CLICK
-  logoutBtn.addEventListener("click", () => {
+      if (token) {
+        fetch(`http://localhost:5000/me`, {
+          method: "GET",
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(res => {
+            if (!res.ok) {
+              throw new Error('Token validation failed');
+            }
+            return res.json();
+          })
+          .then(data => {
+            if (data.authenticated) {
+              // Show the 'Logout' button
+              authLinks.style.display = "none";
+              logoutBtn.style.display = "inline-block";
+            }
+          })
+          .catch(err => {
+            console.error("Authentication check failed:", err);
+            localStorage.removeItem('jwtToken');
+            authLinks.style.display = "inline-block";
+            logoutBtn.style.display = "none";
+          });
+      } else {
+        authLinks.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+      }
+
+      // 2. HANDLE LOGOUT BUTTON CLICK
+      logoutBtn.addEventListener("click", () => {
         if (window.confirm("Do you want to logout from PortfolioHub?")) {
 
-    localStorage.removeItem('jwtToken');
-        window.location.href = "index.html";
+          localStorage.removeItem('jwtToken');
+          window.location.href = "index.html";
         }
-  });
+      });
 
-  
-  // ==========================================================
-  //  IF USER IS NOT LOGIN, POPUP SHOW
-  // ==========================================================
-  
-  const protectedLinks = document.querySelectorAll('.protected-link');
 
-  protectedLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-      const token = localStorage.getItem('jwtToken');
-      if (!token) {
-        event.preventDefault();
-        
-        alert("Login First to access this feature");
-      }
+      // ==========================================================
+      //  IF USER IS NOT LOGIN, POPUP SHOW
+      // ==========================================================
+
+      const protectedLinks = document.querySelectorAll('.protected-link');
+
+      protectedLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+          const token = localStorage.getItem('jwtToken');
+          if (!token) {
+            event.preventDefault();
+
+            alert("Login First to access this feature");
+          }
+        });
+      });
+
     });
-  });
-
-});
 
 
-   </script>
-   
+  </script>
+
 </body>
+
 </html>

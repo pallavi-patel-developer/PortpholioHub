@@ -1,4 +1,3 @@
-//  EDIT PROFILE - MY WORK SCHEMA
 
 const mongoose = require('mongoose');
 const myWorkSchema = new mongoose.Schema({

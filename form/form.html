@@ -1,253 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>Portfolio Form</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="form.css">
+    <title>Portfolio Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="form.css">
 </head>
+
 <body>
- <a href="../index.html" class="brand-heading">PortpholioHub</a>
+    <a href="../index.html" class="brand-heading">PortpholioHub</a>
 
-<form id="portfolio-form" enctype="multipart/form-data" >
- <div class="container">
-    <div class="steps">
-   <p><strong>MAKE YOUR PORTFOLIO</strong></p>
-   <div class="step-indicators">
-    <div class="line"></div>
-    <div class="step active">
-     <div class="step-circle">1</div>
-     Basic Details
-    </div>
-    <div class="step">
-     <div class="step-circle">2</div>
-     Contact Details
-    </div>
-    <div class="step">
-     <div class="step-circle">3</div>
-     Verification
-    </div>
-   </div>
-  </div>
+    <form id="portfolio-form" enctype="multipart/form-data">
+        <div class="container">
+            <div class="steps">
+                <p><strong>MAKE YOUR PORTFOLIO</strong></p>
+                <div class="step-indicators">
+                    <div class="line"></div>
+                    <div class="step active">
+                        <div class="step-circle">1</div>
+                        Basic Details
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">2</div>
+                        Contact Details
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                        Verification
+                    </div>
+                </div>
+            </div>
 
-  <div class="section-title">Basic Details</div>
+            <div class="section-title">Basic Details</div>
 
-    <div class="photo-upload">
-   <div class="photo-preview" id="previewContainer">
-    <img id="photoIcon" src="https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png" alt="icon">
-   </div>
-   <input type="file" id="photoInput" name="photo" accept="image/*">
-   <label for="photoInput">Add Photo</label>
-  </div>
+            <div class="photo-upload">
+                <div class="photo-preview" id="previewContainer">
+                    <img id="photoIcon" src="https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png"
+                        alt="icon">
+                </div>
+                <input type="file" id="photoInput" name="photo" accept="image/*">
+                <label for="photoInput">Add Photo</label>
+            </div>
 
-    <div class="form-group">
-   <label>Full Name</label>
-   <input type="text" id="fullName" name="fullName" placeholder="Enter your full name">
-  </div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name">
+            </div>
 
-    <div class="form-group">
-   <label>Role</label>
-   <input type="text" id="role" name="role" placeholder="Type Here....">
-  </div>
+            <div class="form-group">
+                <label>Role</label>
+                <input type="text" id="role" name="role" placeholder="Type Here....">
+            </div>
 
-    <div class="form-row">
-   <div>
-    <label>City</label>
-    <input type="text" id="city" name="city" placeholder="Type Here....">
-   </div>
-   <div>
-    <label>Upload Resume</label>
-        <input type="file" name="resume" accept="application/pdf">
-   </div>
-  </div>
+            <div class="form-row">
+                <div>
+                    <label>City</label>
+                    <input type="text" id="city" name="city" placeholder="Type Here....">
+                </div>
+                <div>
+                    <label>Upload Resume</label>
+                    <input type="file" name="resume" accept="application/pdf">
+                </div>
+            </div>
 
-    <div class="form-row">
-   <div>
-    <label>Date Of Birth</label>
-    <input type="text" id="dob" name="dob" class="date-fake" placeholder="dd/mm/yyyy" onfocus="this.type='date'">
-   </div>
-   <div>
-    <label>Gender</label>
-    <div class="gender-options">
-     <label><input type="radio" name="gender" value="Male"> Male</label>
-     <label><input type="radio" name="gender" value="Female"> Female</label>
-    </div>
-   </div>
-  </div>
+            <div class="form-row">
+                <div>
+                    <label>Date Of Birth</label>
+                    <input type="text" id="dob" name="dob" class="date-fake" placeholder="dd/mm/yyyy"
+                        onfocus="this.type='date'">
+                </div>
+                <div>
+                    <label>Gender</label>
+                    <div class="gender-options">
+                        <label><input type="radio" name="gender" value="Male"> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                    </div>
+                </div>
+            </div>
 
-    <div class="form-group">
-   <label>About Me</label>
-   <textarea id="aboutMe" name="aboutMe" rows="2" placeholder="Type Here...."></textarea>
-  </div>
+            <div class="form-group">
+                <label>About Me</label>
+                <textarea id="aboutMe" name="aboutMe" rows="2" placeholder="Type Here...."></textarea>
+            </div>
 
-    <div class="form-group">
-   <label>Education</label>
-   <div class="education-container">
-        <div class="education-block">
-     <div class="education-input">
-      <label>Degree</label>
-      <input type="text" id="eduDegree" class="eduDegree" placeholder="e.g. B.Tech">
-     </div>
-     <div class="education-input">
-      <label>College/University</label>
-      <input type="text" id="eduCollege" class="eduCollege" placeholder="e.g. AKTU">
-     </div>
-     <div class="education-input">
-      <label>Graduation Year</label>
-      <input type="text" id="eduYear" class="eduYear" placeholder="e.g. 2026">
-     </div>
-    </div>
+            <div class="form-group">
+                <label>Education</label>
+                <div class="education-container">
+                    <div class="education-block">
+                        <div class="education-input">
+                            <label>Degree</label>
+                            <input type="text" id="eduDegree" class="eduDegree" placeholder="e.g. B.Tech">
+                        </div>
+                        <div class="education-input">
+                            <label>College/University</label>
+                            <input type="text" id="eduCollege" class="eduCollege" placeholder="e.g. AKTU">
+                        </div>
+                        <div class="education-input">
+                            <label>Graduation Year</label>
+                            <input type="text" id="eduYear" class="eduYear" placeholder="e.g. 2026">
+                        </div>
+                    </div>
 
-        <div class="education-block">
-     <div class="education-input">
-            <input type="text" class="eduDegree" placeholder="e.g. Intermediate">
-     </div>
-     <div class="education-input">
-            <input type="text" class="eduCollege" placeholder="e.g. KV No.1 Jhansi">
-     </div>
-     <div class="education-input">
-            <input type="text" class="eduYear" placeholder="e.g. 2022">
-     </div>
-    </div>
+                    <div class="education-block">
+                        <div class="education-input">
+                            <input type="text" class="eduDegree" placeholder="e.g. Intermediate">
+                        </div>
+                        <div class="education-input">
+                            <input type="text" class="eduCollege" placeholder="e.g. KV No.1 Jhansi">
+                        </div>
+                        <div class="education-input">
+                            <input type="text" class="eduYear" placeholder="e.g. 2022">
+                        </div>
+                    </div>
 
-        <div class="education-block">
-     <div class="education-input">
-            <input type="text" class="eduDegree" placeholder="e.g. Intermediate">
-     </div>
-     <div class="education-input">
-            <input type="text" class="eduCollege" placeholder="e.g. KV No.1 Jhansi">
-     </div>
-     <div class="education-input">
-            <input type="text" class="eduYear" placeholder="e.g. 2022">
-     </div>
-    </div>
-   </div>
-  </div>
+                    <div class="education-block">
+                        <div class="education-input">
+                            <input type="text" class="eduDegree" placeholder="e.g. Intermediate">
+                        </div>
+                        <div class="education-input">
+                            <input type="text" class="eduCollege" placeholder="e.g. KV No.1 Jhansi">
+                        </div>
+                        <div class="education-input">
+                            <input type="text" class="eduYear" placeholder="e.g. 2022">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <button type="submit" class="save-btn" id="saveBtn" href="form2.html">Save & Continue</button>
- </div>
+            <button type="submit" class="save-btn" id="saveBtn" href="form2.html">Save & Continue</button>
+        </div>
 
- </form>
+    </form>
 
-  <div id="alertBox" class="alert" style="display: none;"></div>
- 
-<!-- <script src="form.js" defer></script> -->
-<!-- ...existing code... -->
-<script>
+    <div id="alertBox" class="alert" style="display: none;"></div>
 
-console.log("✅ form.js script loaded.");
+    <!-- <script src="form.js" defer></script> -->
+    <!-- ...existing code... -->
+    <script>
 
-const form = document.getElementById('portfolio-form');
-const saveBtn = document.getElementById('saveBtn');
-const alertBox = document.getElementById('alertBox');
-const photoInput = document.getElementById('photoInput');
-const photoIcon = document.getElementById('photoIcon');
-const resumeInput = form.querySelector('input[name="resume"]');
 
-// Show image preview when user selects a file
-photoInput.addEventListener('change', function () {
-    const file = photoInput.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            photoIcon.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-});
+        const form = document.getElementById('portfolio-form');
+        const saveBtn = document.getElementById('saveBtn');
+        const alertBox = document.getElementById('alertBox');
+        const photoInput = document.getElementById('photoInput');
+        const resumeInput = form.querySelector('input[name="resume"]');
 
-// Helper function for showing alerts
-function showAlert(message, type = "error") {
-    alertBox.textContent = message;
-    alertBox.className = `alert ${type}`;
-    alertBox.style.display = 'block';
-    setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
-}
+        // Pre-fill logic
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const portfolioId = urlParams.get('id');
+            const token = localStorage.getItem('jwtToken');
 
-// Convert file to DataURL (for photo and resume)
-function fileToDataURL(file, callback) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        callback(e.target.result);
-    };
-    reader.readAsDataURL(file);
-}
+            if (!token && !portfolioId) return;
 
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
+            try {
+                let fetchUrl = 'http://localhost:5000/profile';
+                const headers = {};
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                if (portfolioId) fetchUrl = `http://localhost:5000/profile/${portfolioId}`;
 
-    // --- Collect basic text data ---
-    const step1Data = {
-        fullName: form.querySelector('#fullName')?.value.trim() || '',
-        role: form.querySelector('#role')?.value.trim() || '',
-        city: form.querySelector('#city')?.value.trim() || '',
-        dob: form.querySelector('#dob')?.value || '',
-        gender: form.querySelector('input[name="gender"]:checked')?.value || '',
-        aboutMe: form.querySelector('#aboutMe')?.value.trim() || ''
-    };
+                const response = await fetch(fetchUrl, { headers });
+                if (response.ok) {
+                    const data = await response.json();
+                    prefillForm(data);
+                }
+            } catch (error) {
+                console.error("Error fetching profile for pre-fill:", error);
+            }
+        });
 
-    // Collect education data
-    const educationArray = [];
-    document.querySelectorAll('.education-block').forEach(block => {
-        const degree = block.querySelector('.eduDegree')?.value.trim() || '';
-        const college = block.querySelector('.eduCollege')?.value.trim() || '';
-        const year = block.querySelector('.eduYear')?.value.trim() || '';
-        if (degree && college && year) {
-            educationArray.push({ degree, college, year });
+        function prefillForm(data) {
+            if (!data) return;
+
+            if (data.fullName) document.getElementById('fullName').value = data.fullName;
+            if (data.role) document.getElementById('role').value = data.role;
+            if (data.city) document.getElementById('city').value = data.city;
+            if (data.dateOfBirth) {
+                const dob = new Date(data.dateOfBirth).toISOString().split('T')[0];
+                document.getElementById('dob').value = dob;
+                document.getElementById('dob').type = 'date';
+            }
+            if (data.gender) {
+                const genderRadio = document.querySelector(`input[name="gender"][value="${data.gender}"]`);
+                if (genderRadio) genderRadio.checked = true;
+            }
+            if (data.aboutMe) document.getElementById('aboutMe').value = data.aboutMe;
+            if (data.photo) photoIcon.src = data.photo;
+
+            // Pre-fill education
+            if (data.education && Array.isArray(data.education)) {
+                const eduBlocks = document.querySelectorAll('.education-block');
+                data.education.forEach((edu, index) => {
+                    if (eduBlocks[index]) {
+                        eduBlocks[index].querySelector('.eduDegree').value = edu.degree || '';
+                        eduBlocks[index].querySelector('.eduCollege').value = edu.college || '';
+                        eduBlocks[index].querySelector('.eduYear').value = edu.year || '';
+                    }
+                });
+            }
+
+            // Store other steps data in sessionStorage for persistence
+            if (data.skills || data.experience) {
+                sessionStorage.setItem('portfolioStep2', JSON.stringify({
+                    skills: data.skills || [],
+                    experience: data.experience || []
+                }));
+            }
+            if (data.projects) {
+                sessionStorage.setItem('portfolioStep3', JSON.stringify({
+                    projects: data.projects || []
+                }));
+            }
+            if (data.contactDetails) {
+                // Step 4 uses FormData directly from form, but we can store it too
+                sessionStorage.setItem('portfolioStep4', JSON.stringify(data.contactDetails));
+            }
         }
-    });
-    step1Data.education = educationArray;
 
-    // --- Validation ---
-    if (!step1Data.fullName || !step1Data.role || !step1Data.city || !step1Data.dob || !step1Data.gender || educationArray.length === 0) {
-        return showAlert('Fill Form First', 'error');
-    }
 
-    // --- Collect photo and resume as DataURL ---
-    const photoFile = photoInput.files[0];
-    const resumeFile = resumeInput.files[0];
+        // Show image preview when user selects a file
+        photoInput.addEventListener('change', function () {
+            const file = photoInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    photoIcon.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-    // Save both files as DataURL in sessionStorage
-    if (photoFile && resumeFile) {
-        fileToDataURL(photoFile, function(photoDataURL) {
-            step1Data.photo = photoDataURL;
-            fileToDataURL(resumeFile, function(resumeDataURL) {
-                step1Data.resume = resumeDataURL;
-                saveStep1Data(step1Data);
+        // Helper function for showing alerts
+        function showAlert(message, type = "error") {
+            alertBox.textContent = message;
+            alertBox.className = `alert ${type}`;
+            alertBox.style.display = 'block';
+            setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
+        }
+
+        // Convert file to DataURL (for photo and resume)
+        function fileToDataURL(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                callback(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // --- Collect basic text data ---
+            const step1Data = {
+                fullName: form.querySelector('#fullName')?.value.trim() || '',
+                role: form.querySelector('#role')?.value.trim() || '',
+                city: form.querySelector('#city')?.value.trim() || '',
+                dob: form.querySelector('#dob')?.value || '',
+                gender: form.querySelector('input[name="gender"]:checked')?.value || '',
+                aboutMe: form.querySelector('#aboutMe')?.value.trim() || ''
+            };
+
+            // Collect education data
+            const educationArray = [];
+            document.querySelectorAll('.education-block').forEach(block => {
+                const degree = block.querySelector('.eduDegree')?.value.trim() || '';
+                const college = block.querySelector('.eduCollege')?.value.trim() || '';
+                const year = block.querySelector('.eduYear')?.value.trim() || '';
+                if (degree && college && year) {
+                    educationArray.push({ degree, college, year });
+                }
             });
-        });
-    } else if (photoFile) {
-        fileToDataURL(photoFile, function(photoDataURL) {
-            step1Data.photo = photoDataURL;
-            step1Data.resume = "";
-            saveStep1Data(step1Data);
-        });
-    } else if (resumeFile) {
-        fileToDataURL(resumeFile, function(resumeDataURL) {
-            step1Data.photo = "";
-            step1Data.resume = resumeDataURL;
-            saveStep1Data(step1Data);
-        });
-    } else {
-        step1Data.photo = "";
-        step1Data.resume = "";
-        saveStep1Data(step1Data);
-    }
+            step1Data.education = educationArray;
 
-    function saveStep1Data(data) {
-        try {
-            sessionStorage.setItem('portfolioStep1', JSON.stringify(data));
-            console.log("✅ Step 1 data (including education, photo & resume) saved. Redirecting...");
-            window.location.href = '/form/form2.html';
-        } catch (error) {
-            console.error("❌ Could not save to sessionStorage:", error);
-            showAlert("An error occurred while saving your progress.", "error");
-        }
-    }
-});
-</script>
+            // --- Validation ---
+            if (!step1Data.fullName || !step1Data.role || !step1Data.city || !step1Data.dob || !step1Data.gender || educationArray.length === 0) {
+                return showAlert('Fill Form First', 'error');
+            }
+
+            // --- Collect photo and resume as DataURL ---
+            const photoFile = photoInput.files[0];
+            const resumeFile = resumeInput.files[0];
+
+            // Save both files as DataURL in sessionStorage
+            if (photoFile && resumeFile) {
+                fileToDataURL(photoFile, function (photoDataURL) {
+                    step1Data.photo = photoDataURL;
+                    fileToDataURL(resumeFile, function (resumeDataURL) {
+                        step1Data.resume = resumeDataURL;
+                        saveStep1Data(step1Data);
+                    });
+                });
+            } else if (photoFile) {
+                fileToDataURL(photoFile, function (photoDataURL) {
+                    step1Data.photo = photoDataURL;
+                    step1Data.resume = "";
+                    saveStep1Data(step1Data);
+                });
+            } else if (resumeFile) {
+                fileToDataURL(resumeFile, function (resumeDataURL) {
+                    step1Data.photo = "";
+                    step1Data.resume = resumeDataURL;
+                    saveStep1Data(step1Data);
+                });
+            } else {
+                step1Data.photo = "";
+                step1Data.resume = "";
+                saveStep1Data(step1Data);
+            }
+
+            function saveStep1Data(data) {
+                try {
+                    // Merge with existing data if present
+                    const existing = JSON.parse(sessionStorage.getItem('portfolioStep1') || '{}');
+                    const merged = { ...existing, ...data };
+                    sessionStorage.setItem('portfolioStep1', JSON.stringify(merged));
+
+                    window.location.href = '/form/form2.html';
+                } catch (error) {
+                    console.error("Could not save to sessionStorage:", error);
+                    showAlert("An error occurred while saving your progress.", "error");
+                }
+            }
+        });
+    </script>
 
 
 </body>
+
 </html>

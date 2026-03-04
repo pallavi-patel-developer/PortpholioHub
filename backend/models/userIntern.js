@@ -1,6 +1,3 @@
-// ===================================
-// ------------ SIGNUP ONLY FOR INTERNS -------------
-// ===================================
 
 const mongoose = require('mongoose');
 
@@ -55,7 +52,6 @@ const userSchemaIntern = new mongoose.Schema(
   }
 );
 
-// Pre-save validation hook
 userSchemaIntern.pre('save', function (next) {
   if (this.provider === 'local' && !this.password) {
     const error = new Error('Password is required for local users');

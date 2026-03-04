@@ -1,4 +1,3 @@
-// Hamburger toggle
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 
@@ -8,7 +7,6 @@ if (hamburger && navLinks) {
   });
 }
 
-// Intersection Observer to add 'in-view' class on scroll
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -25,7 +23,6 @@ if (document.querySelectorAll('.hiw-step')) {
   });
 }
 
-// Dropdown toggle logic
 if (document.querySelectorAll('.dropdown > button')) {
   document.querySelectorAll('.dropdown > button').forEach(button => {
     button.addEventListener('click', (e) => {
@@ -45,7 +42,6 @@ document.addEventListener('click', () => {
   });
 });
 
-// Pagination active state
 if (document.querySelector('.pagination')) {
   document.querySelectorAll('.pagination a').forEach(button => {
     button.addEventListener('click', () => {
@@ -97,7 +93,6 @@ if (document.querySelector('.filters')) {
   }
 })();
 
-// Cursor
 var crsr = document.querySelector("#cursor");
 var blur = document.querySelector("#cursorblur");
 
@@ -112,7 +107,6 @@ if (crsr && blur) {
 
 
 function showAlert(message, type = "success") {
-  // Create alert box if it doesn't exist
   let alertBox = document.getElementById("alertBox");
   if (!alertBox) {
     alertBox = document.createElement("div");

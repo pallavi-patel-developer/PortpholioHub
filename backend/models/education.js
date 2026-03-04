@@ -1,4 +1,3 @@
-// //  EDIT PROFILE - EDUCATION SCHEMA
 
 const mongoose = require('mongoose');
 const educationSchema = new mongoose.Schema({

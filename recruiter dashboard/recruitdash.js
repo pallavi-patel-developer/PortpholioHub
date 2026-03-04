@@ -1,4 +1,3 @@
-// ===== PAGES (templates) =====
 const pages = {
   dashboard: `
     <div class="topbar"><div class="page-title">Dashboard</div></div>
@@ -200,7 +199,7 @@ const pages = {
             <label class="field-label">Duration</label>
             <select id="duration" class="ui-input ui-select">
               <option selected disabled>Select months</option>
-              ${Array.from({length:12},(_,i)=>`<option>${i+1}</option>`).join('')}
+              ${Array.from({ length: 12 }, (_, i) => `<option>${i + 1}</option>`).join('')}
             </select>
           </div>
         </div>
@@ -249,22 +248,16 @@ const pages = {
   message: `<div class="topbar"><div class="page-title">Message</div></div><p>Page under construction...</p>`
 };
 
-// ------------------------------------------
-// =============== LOAD PAGE ================
-// ------------------------------------------
-
-   function loadPage(page) {
+function loadPage(page) {
   const main = document.getElementById("main-content");
   main.innerHTML = pages[page] || "<p>Page not found</p>";
 
   if (page === "dashboard") initializeDashboard();
   if (page === "all-applicants") loadApplicants();
-  if (page === "job-listing") loadJobListings();  
+  if (page === "job-listing") loadJobListings();
 }
 
-// ===== CHARTS =====
-// ===== CHARTS =====
-function initCharts(jobDataByMonth = []) { // Default to an empty array
+function initCharts(jobDataByMonth = [], pieData = { accepted: 0, rejected: 0 }) { // Default to an empty array
   const barCtx = document.getElementById('barChart')?.getContext('2d');
   const maxDataValue = Math.max(...jobDataByMonth);
   const chartMax = maxDataValue > 0 ? maxDataValue + 3 : 5;
@@ -281,7 +274,7 @@ function initCharts(jobDataByMonth = []) { // Default to an empty array
       },
       options: {
         plugins: { legend: { display: false } },
-        scales: {   y: { beginAtZero: true, ticks: {stepSize: 1}, max: chartMax} },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 }, max: chartMax } },
         maintainAspectRatio: true,
         responsive: true
       }
@@ -293,7 +286,7 @@ function initCharts(jobDataByMonth = []) { // Default to an empty array
       type: 'pie',
       data: {
         labels: ['Accepted', 'Rejected'],
-        datasets: [{ data: [60, 30], backgroundColor: ['#2f5fc1', '#87b6ff'] }]
+        datasets: [{ data: [pieData.accepted, pieData.rejected], backgroundColor: ['#2f5fc1', '#87b6ff'] }]
       },
       options: {
         plugins: { legend: { display: false } },
@@ -304,47 +297,49 @@ function initCharts(jobDataByMonth = []) { // Default to an empty array
   }
 }
 
-// =================================================================
-// ========== JOB POSTS BY MONTH FOR DASHBOARD CHART ==========
-// =================================================================
 async function initializeDashboard() {
   try {
     const token = localStorage.getItem("jwtToken");
-    const res = await fetch("https://portpholiohub.onrender.com/recruiter/jobs", {
-      headers: { "Authorization": `Bearer ${token}` }
-    });
+    const [jobsRes, applicantsRes] = await Promise.all([
+      fetch("http://localhost:5000/recruiter/jobs", { headers: { "Authorization": `Bearer ${token}` } }),
+      fetch("http://localhost:5000/recruiter/applicants", { headers: { "Authorization": `Bearer ${token}` } })
+    ]);
 
-    if (!res.ok) {
+    if (!jobsRes.ok) {
       throw new Error("Failed to fetch jobs for the dashboard.");
     }
-    const jobs = await res.json();
+    const jobs = await jobsRes.json();
+    const applicants = applicantsRes.ok ? await applicantsRes.json() : [];
 
     const monthlyJobCounts = new Array(12).fill(0);
-    let totalApplicants = 0;
+
+    let accepted = 0;
+    let rejected = 0;
+
+    applicants.forEach(app => {
+      if (app.status === 'Accepted') accepted++;
+      if (app.status === 'Rejected') rejected++;
+    });
 
     jobs.forEach(job => {
       const postDate = new Date(job.createdAt);
       const month = postDate.getMonth();
       monthlyJobCounts[month]++;
-
-      totalApplicants += Array.isArray(job.applicants) ? job.applicants.length : 0;
     });
 
     const applicationsEl = document.querySelector('.stat-number.applications');
     const jobsEl = document.querySelector('.stat-number.jobs');
-    if (applicationsEl) applicationsEl.textContent = totalApplicants;
+    if (applicationsEl) applicationsEl.textContent = applicants.length;
     if (jobsEl) jobsEl.textContent = jobs.length;
 
-    initCharts(monthlyJobCounts);
+    initCharts(monthlyJobCounts, { accepted, rejected });
 
   } catch (error) {
-    console.error("Error initializing dashboard:", error);
-    initCharts([]); 
+    initCharts([], { accepted: 0, rejected: 0 });
   }
 }
 
 
-// ===== SIDEBAR NAV =====
 const navLinks = document.querySelectorAll(".nav-link");
 navLinks.forEach(link => {
   link.addEventListener("click", e => {
@@ -356,37 +351,32 @@ navLinks.forEach(link => {
   });
 });
 
-// ===== MOBILE TOGGLE =====
-const hamburger = document.getElementById('hamburger');
-const scrim = document.getElementById('scrim');
-hamburger.addEventListener('click', ()=> document.body.classList.toggle('sidebar-open'));
-scrim.addEventListener('click', ()=> document.body.classList.remove('sidebar-open'));
-window.addEventListener('resize', ()=> { if (window.innerWidth > 768) document.body.classList.remove('sidebar-open'); });
+hamburger.addEventListener('click', () => document.body.classList.toggle('sidebar-open'));
+scrim.addEventListener('click', () => document.body.classList.remove('sidebar-open'));
+window.addEventListener('resize', () => { if (window.innerWidth > 768) document.body.classList.remove('sidebar-open'); });
 
-// ===== INITIAL PAGE =====
 loadPage("dashboard");
 
-// ===== DYNAMIC SKILLS =====
-document.addEventListener("click", function(e){
-  if(e.target.closest("#add-skill")){
+document.addEventListener("click", function (e) {
+  if (e.target.closest("#add-skill")) {
     const container = document.getElementById("skills-container");
-    if(!container) return;
+    if (!container) return;
     const inputs = container.querySelectorAll(".inline-input");
-    if(inputs.length < 3){
+    if (inputs.length < 3) {
       const newField = document.createElement("div");
       newField.className = "inline-input";
       newField.innerHTML = `
-        <input class="ui-input" type="text" placeholder="e.g., Skill ${inputs.length+1}">
+        <input class="ui-input" type="text" placeholder="e.g., Skill ${inputs.length + 1}">
         <button type="button" class="icon-btn remove-skill" aria-label="Remove skill"><i class="fa-solid fa-minus"></i></button>
       `;
       container.appendChild(newField);
     }
-    if(container.querySelectorAll(".inline-input").length >= 3){
+    if (container.querySelectorAll(".inline-input").length >= 3) {
       const addBtn = document.getElementById("add-skill");
       if (addBtn) addBtn.disabled = true;
     }
   }
-  if(e.target.closest(".remove-skill")){
+  if (e.target.closest(".remove-skill")) {
     const container = document.getElementById("skills-container");
     e.target.closest(".inline-input").remove();
     const addBtn = document.getElementById("add-skill");
@@ -394,13 +384,8 @@ document.addEventListener("click", function(e){
   }
 });
 
-
-// ============================================================
-// =========== APPLICANTS WHO APPLIED ON INTERNSHIPS ==========
-// ============================================================
-
-let allFetchedApplicants = []; // This will be our new source of truth
-let filters = {location:"All", industry:"All", experience:"All", skills:"All", rate:"All", availability:"All"};
+let allFetchedApplicants = [];
+let filters = { location: "All", industry: "All", experience: "All", skills: "All", rate: "All", availability: "All" };
 let currentPage = 1; const perPage = 6;
 
 async function loadApplicants() {
@@ -408,10 +393,10 @@ async function loadApplicants() {
   if (!grid) return;
 
   grid.innerHTML = "<p>Loading applicants...</p>";
-  const token = localStorage.getItem("jwtToken"); // Make sure this is the correct token key
+  const token = localStorage.getItem("jwtToken");
 
   try {
-    const res = await fetch("https://portpholiohub.onrender.com/recruiter/applicants", {
+    const res = await fetch("http://localhost:5000/recruiter/applicants", {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -420,51 +405,50 @@ async function loadApplicants() {
     if (!res.ok) {
       throw new Error("No applicants have applied to your jobs yet.");
     }
-    
+
     const applications = await res.json();
-      const validApplications = applications.filter(app => app.portfolio);
-      allFetchedApplicants = validApplications.map(app => {
-        return {
-         applicationId: app.applicationId,
+    const validApplications = applications.filter(app => app.portfolio);
+    allFetchedApplicants = validApplications.map(app => {
+      return {
+        applicationId: app.applicationId,
         status: app.status,
-        id: app.portfolio._id,        
-        name: app.portfolio.fullName,  
-        role: app.portfolio.role,      
-        location: app.portfolio.city,   
-        skills: app.portfolio.skills,   
-        img: app.portfolio.photo,       
-        industry: "Software", 
-        experience: "Mid", 
-        rate: "$40-$50", 
-        availability: "Full-time" 
-        };
+        jobTitle: app.jobTitle || "Unknown Job",
+        userEmail: app.userEmail || "No Email Provided",
+        appliedOn: app.appliedOn ? new Date(app.appliedOn).toLocaleDateString() : "Unknown Date",
+        id: app.portfolio._id,
+        name: app.portfolio.fullName,
+        role: app.portfolio.role,
+        location: app.portfolio.city,
+        skills: app.portfolio.skills,
+        img: app.portfolio.photo,
+        industry: "Software",
+        experience: "Mid",
+        rate: "$40-$50",
+        availability: "Full-time"
+      };
     });
 
     if (allFetchedApplicants.length === 0) {
-        grid.innerHTML = "<p>No one has applied to your job postings yet.</p>";
-        document.getElementById("pagination").innerHTML = ''; 
-        return;
+      grid.innerHTML = "<p>No one has applied to your job postings yet.</p>";
+      document.getElementById("pagination").innerHTML = '';
+      return;
     }
 
-    renderApplicants(); 
+    renderApplicants();
 
   } catch (err) {
-    console.error("Error loading applicants:", err);
     grid.innerHTML = `<p class="error">${err.message}</p>`;
   }
 }
 
-// ✅ MODIFIED: renderApplicants now uses the 'allFetchedApplicants' variable
 function renderApplicants() {
   const grid = document.getElementById("applicants-grid");
-  if(!grid) return;
-
-  // Filter the dynamically fetched data, not the static array
+  if (!grid) return;
   let filtered = allFetchedApplicants.filter(app => {
     return Object.keys(filters).every(f => {
-      if(filters[f] === "All") return true;
-      if(f === "skills") return app.skills.includes(filters[f]);
-      return (app[f]||'').toLowerCase() === filters[f].toLowerCase();
+      if (filters[f] === "All") return true;
+      if (f === "skills") return app.skills.includes(filters[f]);
+      return (app[f] || '').toLowerCase() === filters[f].toLowerCase();
     });
   });
 
@@ -472,12 +456,10 @@ function renderApplicants() {
   if (currentPage > totalPages) currentPage = 1;
   const start = (currentPage - 1) * perPage; const end = start + perPage;
   const pageItems = filtered.slice(start, end);
-
-  // Helper to determine status color
   const getStatusClass = (status) => {
-      if (status === 'Accepted') return 'status-accepted';
-      if (status === 'Rejected') return 'status-rejected';
-      return 'status-review'; // for 'Under Review'
+    if (status === 'Accepted') return 'status-accepted';
+    if (status === 'Rejected') return 'status-rejected';
+    return 'status-review'; // for 'Under Review'
   };
 
   grid.innerHTML = pageItems.map(app => `
@@ -486,11 +468,14 @@ function renderApplicants() {
         <img src="${app.img}" class="profile-pic" alt="${app.name}">
         <div>
           <h3>${app.name}</h3>
-          <div class="role">${app.role} | ${app.location}</div>
+          <div class="role" style="margin-bottom: 4px;">${app.role} | ${app.location}</div>
+          <div style="font-size: 13px; font-weight: 500; color: #2f5fc1;">Applied for: ${app.jobTitle}</div>
+          <div style="font-size: 12px; color: #666; margin-top: 2px;">📧 ${app.userEmail}</div>
+          <div style="font-size: 11px; color: #999; margin-top: 2px;">📅 Applied on: ${app.appliedOn}</div>
         </div>
         <div class="status-badge ${getStatusClass(app.status)}">${app.status}</div>
       </div>
-      <div class="skills">${(app.skills.name || []).map(s => `<div class="skill">${s}</div>`).join('')}</div>
+      <div class="skills">${(Array.isArray(app.skills) ? app.skills : []).map(s => `<div class="skill">${s.name || s}</div>`).join('')}</div>
       <div class="actions">
         <button class="btn-view" data-portfolio-id="${app.id}">View Portfolio</button>
         <button class="btn-accept" data-application-id="${app.applicationId}">Accept</button>
@@ -503,74 +488,19 @@ function renderApplicants() {
   renderPagination(totalPages);
 }
 
-// =====================================================
-// ===== PAGINATION =====
-// ==================================================
-
-
-// function renderApplicants() {
-//   const grid = document.getElementById("applicants-grid");
-//   if(!grid) return;
-//   let filtered = applicantsData.filter(app => {
-//     return Object.keys(filters).every(f => {
-//       if(filters[f] === "All") return true;
-//       if(f === "skills") return app.skills.includes(filters[f]);
-//       return (app[f]||'').toLowerCase() === filters[f].toLowerCase();
-//     });
-//   });
-
-//   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-//   if (currentPage > totalPages) currentPage = 1;
-//   const start = (currentPage - 1) * perPage; const end = start + perPage;
-//   const pageItems = filtered.slice(start, end);
-
-//   grid.innerHTML = pageItems.map(app => `
-//     <div class="card">
-//       <div class="card-header">
-//         <img src="${app.img}" class="profile-pic" alt="${app.name}">
-//         <div>
-//           <h3>${app.name}</h3>
-//           <div class="role">${app.role} | ${app.location}</div>
-//         </div>
-//       </div>
-//       <div class="skills">${app.skills.map(s => `<div class="skill">${s}</div>`).join('')}</div>
-//       <div class="actions">
-//         <button class="btn-view">View Portfolio</button>
-//         <button class="btn-accept">Accept</button>
-//         <button class="btn-reject">Reject</button>
-//       </div>
-//     </div>
-//   `).join('');
-
-//   renderPagination(totalPages);
-// }
-// =================================================================================
-
-
-
-
-
-// ====================================
-// =========== PAGINATION========
-// ====================================
-function renderPagination(total){
+function renderPagination(total) {
   const pagination = document.getElementById("pagination");
-  if(!pagination) return;
+  if (!pagination) return;
   pagination.innerHTML = '';
-  for(let i=1;i<=total;i++){
-    pagination.innerHTML += `<a href="#" class="${i===currentPage?'active':''}" data-page="${i}">${i}</a>`;
+  for (let i = 1; i <= total; i++) {
+    pagination.innerHTML += `<a href="#" class="${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</a>`;
   }
 }
 
-// =======================================
-// ===========ACCEPTED / REJECTED ========
-// =======================================
-
-// ✅ NEW: Function to update application status via API
 async function updateApplicationStatus(applicationId, status) {
   const token = localStorage.getItem("jwtToken");
   try {
-    const res = await fetch(`https://portpholiohub.onrender.com/recruiter/applicants/${applicationId}/status`, {
+    const res = await fetch(`http://localhost:5000/recruiter/applicants/${applicationId}/status`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -578,13 +508,12 @@ async function updateApplicationStatus(applicationId, status) {
       },
       body: JSON.stringify({ status })
     });
-    
+
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message || 'Failed to update status');
     }
-    
-    // Update UI on success
+
     const card = document.getElementById(`application-${applicationId}`);
     const statusBadge = card.querySelector('.status-badge');
     statusBadge.textContent = status;
@@ -598,15 +527,12 @@ async function updateApplicationStatus(applicationId, status) {
     }
 
   } catch (err) {
-    console.error(`Error updating status to ${status}:`, err);
     alert(`Error: ${err.message}`);
   }
 }
 
-// ✅ UPDATED: Main event listener to handle accept/reject clicks
 document.addEventListener("click", e => {
-  // ... (keep your existing filter and pagination logic here)
-  if(e.target.closest(".dropdown-content a")) {
+  if (e.target.closest(".dropdown-content a")) {
     e.preventDefault();
     const val = e.target.textContent.trim();
     const filterType = e.target.closest(".dropdown").dataset.filter;
@@ -614,13 +540,12 @@ document.addEventListener("click", e => {
     currentPage = 1;
     renderApplicants();
   }
-  if(e.target.closest(".pagination a")) {
+  if (e.target.closest(".pagination a")) {
     e.preventDefault();
     currentPage = parseInt(e.target.dataset.page);
     renderApplicants();
   }
 
-  // --- ADD THIS NEW LOGIC ---
   if (e.target.matches('.btn-accept')) {
     const applicationId = e.target.dataset.applicationId;
     updateApplicationStatus(applicationId, 'Accepted');
@@ -631,23 +556,16 @@ document.addEventListener("click", e => {
     updateApplicationStatus(applicationId, 'Rejected');
   }
 
-// recruitdash.js
-
-if (e.target.matches('.btn-view')) {
+  if (e.target.matches('.btn-view')) {
     const portfolioId = e.target.dataset.portfolioId;
     if (portfolioId) {
-        window.open(`../portfolio-viewer.html?id=${portfolioId}`, '_blank');
+      window.open(`../portfolio-viewer.html?id=${portfolioId}`, '_blank');
     }
-}
+  }
 
 });
 
-  //  ----------------------------- END OF NEW LOGIC -----------------------------
-
-// =======================================
-//              JOB POSTING
-// =======================================
-const token = localStorage.getItem("jwtToken"); // save this at login/signup
+const token = localStorage.getItem("jwtToken");
 
 document.addEventListener("click", async (e) => {
   if (e.target.closest(".btn-primary")) {
@@ -665,78 +583,67 @@ document.addEventListener("click", async (e) => {
       deadline: document.querySelector("#deadline").value
     };
 
-    console.log("📤 Posting job in recruitdash:", jobData);
 
     try {
-      const res = await fetch("https://portpholiohub.onrender.com/postJob", {   // ✅ FIX endpoint too
+      const res = await fetch("http://localhost:5000/postJob", {
         method: "POST",
-        headers: { "Content-Type": "application/json" ,
-              "Authorization": `Bearer ${token}`
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(jobData)
       });
 
       const data = await res.json();
       if (res.ok) {
-        alert("✅ Job posted successfully!");
-                let jobCount = parseInt(localStorage.getItem("jobCount") || "0", 10);
-                   jobCount++;
-                     localStorage.setItem("jobCount", jobCount);
+        alert("Job posted successfully!");
+        let jobCount = parseInt(localStorage.getItem("jobCount") || "0", 10);
+        jobCount++;
+        localStorage.setItem("jobCount", jobCount);
 
-        console.log("📊 Total jobs posted:", jobCount);
+        // Redirect to "Job Listing" tab
+        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+        const jobTab = document.querySelector('.nav-link[data-page="job-listing"]');
+        if (jobTab) jobTab.classList.add("active");
 
+        loadPage("job-listing");
       } else {
-        alert("❌ Error: " + data.message);
+        alert("Error: " + data.message);
       }
     } catch (err) {
-      console.error("Error posting job:", err);
-      alert("❌ Failed to post job");
+      alert("Failed to post job");
     }
   }
 });
 
-// =======================================
-//   SHOW TOTAL JOB COUNT AFTER REFRESH, start from  hree
-// =======================================
 window.addEventListener("DOMContentLoaded", () => {
   const jobCount = localStorage.getItem("jobCount") || 0;
-  console.log("📊 Jobs posted so far (persistent):", jobCount);
 
-  // Example: show in UI if you have an element
   const jobCountEl = document.querySelector("#job-count");
   if (jobCountEl) {
     jobCountEl.textContent = jobCount;
   }
 });
 
-// =======================================
-//            JOB LISITING FETCH
-// =======================================
-
 async function loadJobListings() {
   try {
-    const res = await fetch("https://portpholiohub.onrender.com/recruiter/jobs" , {
-        headers: { "Authorization": `Bearer ${token}` },
-      credentials: "include" // keep session cookies
+    const res = await fetch("http://localhost:5000/recruiter/jobs", {
+      headers: { "Authorization": `Bearer ${token}` },
+      credentials: "include"
     });
     const jobs = await res.json();
-    
-if (!res.ok) {
-  console.error("❌ Server error:", jobs.message);
-  return;
-}
 
-if (!Array.isArray(jobs)) {
-  console.error("❌ Jobs is not an array:", jobs);
-  return;
-}
-    //  displayJobs(jobs); 
-   console.log("📥 Fetched jobs in recruitdash job listing :", jobs);
-     const tbody = document.getElementById("jobTableBody");
-      if (!tbody) return; 
-    tbody.innerHTML = ""; // clear existing rows
+    if (!res.ok) {
+      return;
+    }
 
-        // ✅ Track totals Applicants & Jobs
+    if (!Array.isArray(jobs)) {
+      return;
+    }
+    const tbody = document.getElementById("jobTableBody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
     let totalApplicants = 0;
     let totalJobs = jobs.length;
 
@@ -744,17 +651,14 @@ if (!Array.isArray(jobs)) {
       const tr = document.createElement("tr");
       const postedOn = new Date(job.createdAt).toLocaleDateString();
 
-  // ✅ Define count 
-  let applicantCounts = JSON.parse(localStorage.getItem("applicantCounts")) || {};
+      let applicantCounts = JSON.parse(localStorage.getItem("applicantCounts")) || {};
       const count = Number(job.applicantCount) || applicantCounts[job._id] || 0;
       totalApplicants += count;
 
-  // Define deadline status
-
-const today = new Date();
+      const today = new Date();
       const deadline = job.deadline ? new Date(job.deadline) : null;
 
-       let statusClass = "status-open";
+      let statusClass = "status-open";
       let statusText = "Open";
 
       if (deadline && deadline < today) {
@@ -766,7 +670,7 @@ const today = new Date();
         <td>${job.title}</td>
         <td>${job.location}</td>
         <td>${postedOn}</td>
-         <td>${count}</td> <!-- Applicants -->
+         <td>${count}</td>
     <td class="${statusClass}">${statusText}</td>
          <td>
     <button class="edit-btn" data-id="${job._id}">Edit</button>
@@ -775,39 +679,29 @@ const today = new Date();
       `;
       tbody.appendChild(tr);
     });
-        // ✅ Update dashboard stats
 
+    const jobAppsEl = document.querySelector(".stat-number.applications");
+    const jobPostsEl = document.querySelector(".stat-number.jobs");
 
-   // ✅ Update job listing stats (if available)
-const jobAppsEl = document.querySelector(".stat-number.applications");
-const jobPostsEl = document.querySelector(".stat-number.jobs");
+    if (jobAppsEl && jobPostsEl) {
+      jobAppsEl.textContent = totalApplicants;
+      jobPostsEl.textContent = totalJobs;
+    }
 
-if (jobAppsEl && jobPostsEl) {
-  jobAppsEl.textContent = totalApplicants;
-  jobPostsEl.textContent = totalJobs;
-}
-
-
-// ✅ Save to localStorage so dashboard can use it
-localStorage.setItem("totalApplicants", totalApplicants);
-localStorage.setItem("totalJobs", totalJobs);
+    localStorage.setItem("totalApplicants", totalApplicants);
+    localStorage.setItem("totalJobs", totalJobs);
 
   } catch (err) {
-    console.error("❌ Error loading jobs:", err);
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-     loadJobListings();
+  loadJobListings();
 });
-
-// =======================================
-//   DASHBOARD STATS FETCH (on load)
-// =======================================
 
 async function loadDashboardStats() {
   try {
-    const res = await fetch("https://portpholiohub.onrender.com/recruiter/jobs", {
+    const res = await fetch("http://localhost:5000/recruiter/jobs", {
       headers: { "Authorization": `Bearer ${token}` },
       credentials: "include"
     });
@@ -818,81 +712,73 @@ async function loadDashboardStats() {
     const totalJobs = jobs.length;
 
     jobs.forEach(job => {
-      // Use actual array length if backend returns applicants
       const count = Array.isArray(job.applicants) ? job.applicants.length : Number(job.applicantCount) || 0;
       totalApplicants += count;
     });
 
-    // Update dashboard stats
     const dashApps = document.querySelector(".stat-number.dashboard-applications");
     const dashJobs = document.querySelector(".stat-number.dashboard-jobs");
     if (dashApps) dashApps.textContent = totalApplicants;
     if (dashJobs) dashJobs.textContent = totalJobs;
 
   } catch (err) {
-    console.error("❌ Error loading dashboard stats:", err);
   }
 }
 
 
 window.addEventListener("DOMContentLoaded", loadDashboardStats);
 
-// Delegate clicks for Edit/Delete
 document.addEventListener("click", async (e) => {
-  // ===== DELETE JOB =====
   if (e.target.classList.contains("delete-btn")) {
     const jobId = e.target.dataset.id;
     if (!confirm("Are you sure you want to delete this job?")) return;
 
     try {
-      const res = await fetch(`https://portpholiohub.onrender.com/jobs/${jobId}`, {
+      const res = await fetch(`http://localhost:5000/jobs/${jobId}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
 
       const data = await res.json();
       if (res.ok) {
-        alert("✅ Job deleted");
-        loadJobListings(); // refresh list
+        alert("Job deleted");
+        loadJobListings();
       } else {
-        alert("❌ " + data.message);
+        alert(data.message);
       }
     } catch (err) {
-      console.error("Error deleting job:", err);
     }
   }
 
-  // ===== EDIT JOB =====
-if (e.target.classList.contains("edit-btn")) {
-  const jobId = e.target.dataset.id;
+  if (e.target.classList.contains("edit-btn")) {
+    const jobId = e.target.dataset.id;
 
-  const newTitle = prompt("Enter new job title:");
-  if (!newTitle) return;
+    const newTitle = prompt("Enter new job title:");
+    if (!newTitle) return;
 
-  const newLocation = prompt("Enter new job location:");
-  if (!newLocation) return;
+    const newLocation = prompt("Enter new job location:");
+    if (!newLocation) return;
 
-  try {
-    const res = await fetch(`https://portpholiohub.onrender.com/jobs/${jobId}`, {
-      method: "PUT",
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({ title: newTitle, location: newLocation })
-    });
+    try {
+      const res = await fetch(`http://localhost:5000/jobs/${jobId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ title: newTitle, location: newLocation })
+      });
 
-    const data = await res.json();
-    if (res.ok) {
-      alert("✅ Job updated successfully");
-      loadJobListings(); // refresh table
-    } else {
-      alert("❌ " + data.message);
+      const data = await res.json();
+      if (res.ok) {
+        alert("Job updated successfully");
+        loadJobListings();
+      } else {
+        alert(data.message);
+      }
+    } catch (err) {
     }
-  } catch (err) {
-    console.error("Error updating job:", err);
   }
-}
 
 });
 

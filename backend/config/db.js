@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 
-mongoose.set("strictQuery",false);
+mongoose.set("strictQuery", false);
 
 const connectDB = async () => {
-  try{
-  const conn =  await mongoose.connect(process.env.MONGO_URI); 
-    console.log("✅👌 MongoDB Connected");
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
     return conn;
   }
-  catch(err) {
-    console.log("❌ Mongo Error :", err.message);
-    process.exit(1);  // stop the server
+  catch (err) {
+    process.exit(1);
   }
 };
 

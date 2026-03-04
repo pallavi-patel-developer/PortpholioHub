@@ -1,4 +1,3 @@
-//  EDIT PROFILE - PROFILE SCHEMA WITH  NAME , YOE , PROFILE IMAGE URL
  
 const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({

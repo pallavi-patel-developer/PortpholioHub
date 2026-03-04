@@ -1,44 +1,32 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const UserIntern = require("../models/userIntern");
+const UserRecruiter = require("../models/userRecruiter");
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await UserIntern.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
-
-passport.use(
+passport.use('google',
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/intern/callback",
+      callbackURL: `${process.env.BACKEND_URL}/auth/google/intern/callback`,
+      passReqToCallback: true
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (req, accessToken, refreshToken, profile, done) => {
       try {
-        let user = await UserIntern.findOne({ googleId: profile.id });
+        const type = req.query.state === 'recruiter' ? 'recruiter' : 'intern';
+        const Model = type === 'recruiter' ? UserRecruiter : UserIntern;
 
-        if (user) {
-          return done(null, user);
-        }
+        let user = await Model.findOne({ googleId: profile.id });
+        if (user) return done(null, user, { type });
 
-        const newUser = new UserIntern({
+        const newUser = new Model({
           googleId: profile.id,
           username: profile.displayName,
           email: profile.emails?.[0]?.value,
           provider: "google",
         });
-
         await newUser.save();
-        return done(null, newUser);
+        return done(null, newUser, { type, new: true });
       } catch (error) {
         return done(error, null);
       }

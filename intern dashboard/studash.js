@@ -44,6 +44,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // Handle OAuth token from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const tokenFromUrl = urlParams.get('token');
+  if (tokenFromUrl) {
+    localStorage.setItem('jwtToken', tokenFromUrl);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   const viewRoot = document.getElementById('view-root');
   const pageTitleEl = document.getElementById('page-title');
   const navLinks = document.querySelectorAll('.nav a[data-page]');
@@ -80,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!token) {
       throw new Error("You must be logged in to view your applications.");
     }
-    const response = await fetch('http://localhost:5000/myApplications', {
+    const response = await fetch(`${process.env.BACKEND_URL}/myApplications`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!response.ok) {
@@ -237,7 +245,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem("jwtToken");
     if (!token) throw new Error("No token found");
 
-    const res = await fetch('http://localhost:5000/profile', {
+    const res = await fetch(`${process.env.BACKEND_URL}/profile`, {
       method: "GET",
       headers: { "Authorization": `Bearer ${token}` }
     });

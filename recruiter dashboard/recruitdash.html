@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,74 +17,78 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+
 <body>
-<div class="page-wrapper">
-  <div class="shell">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-  <a href="../recruiter-Index/recruiter-Index.html">
-    <img src="../resources/logo.png" alt="PortfolioHub Logo" class="brand-img">
-  </a>
-</div>
+  <div class="page-wrapper">
+    <div class="shell">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <a href="../recruiter-Index/recruiter-Index.html">
+            <img src="../resources/logo.png" alt="PortfolioHub Logo" class="brand-img">
+          </a>
+        </div>
 
-      <nav class="nav">
-        <a href="#" class="nav-link active" data-page="dashboard">
-          <div class="icon"><i class="fa-solid fa-chart-simple"></i></div><span class="label">Dashboard</span>
-        </a>
-        <a href="#" class="nav-link" data-page="post-job">
-          <div class="icon"><i class="fa-solid fa-plus"></i></div><span class="label">Post Job</span>
-        </a>
-        <a href="#" class="nav-link" data-page="all-applicants">
-          <div class="icon"><i class="fa-solid fa-users"></i></div><span class="label">All Applicants</span>
-        </a>
-        <a href="#" class="nav-link" data-page="job-listing">
-          <div class="icon"><i class="fa-solid fa-briefcase"></i></div><span class="label">Job Listing</span>
-        </a>
-        <a href="#" class="nav-link" data-page="message">
-          <div class="icon"><i class="fa-solid fa-envelope"></i></div><span class="label">Message</span>
-        </a>
-      </nav>
-    </aside>
+        <nav class="nav">
+          <a href="#" class="nav-link active" data-page="dashboard">
+            <div class="icon"><i class="fa-solid fa-chart-simple"></i></div><span class="label">Dashboard</span>
+          </a>
+          <a href="#" class="nav-link" data-page="post-job">
+            <div class="icon"><i class="fa-solid fa-plus"></i></div><span class="label">Post Job</span>
+          </a>
+          <a href="#" class="nav-link" data-page="all-applicants">
+            <div class="icon"><i class="fa-solid fa-users"></i></div><span class="label">All Applicants</span>
+          </a>
+          <a href="#" class="nav-link" data-page="job-listing">
+            <div class="icon"><i class="fa-solid fa-briefcase"></i></div><span class="label">Job Listing</span>
+          </a>
+          <a href="#" class="nav-link" data-page="message">
+            <div class="icon"><i class="fa-solid fa-envelope"></i></div><span class="label">Message</span>
+          </a>
+        </nav>
+      </aside>
 
-    <!-- Mobile hamburger & scrim -->
-    <button id="hamburger" class="hamburger" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
-    <div class="scrim" id="scrim"></div>
+      <!-- Mobile hamburger & scrim -->
+      <button id="hamburger" class="hamburger" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+      <div class="scrim" id="scrim"></div>
 
-    <!-- Main -->
-    <main class="main" id="main-content"></main>
+      <!-- Main -->
+      <main class="main" id="main-content"></main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <div class="footer-logo-circle"><span>P</span></div>
+          <span class="footer-logo-text">Portfolio Hub</span>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Company</h4>
+            <a href="#">About us</a><a href="#">Services</a><a href="#">Contact us</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help center</a><a href="#">Terms of service</a><a href="#">Legal</a><a href="#">Privacy
+              policy</a><a href="#">Status</a>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="#">Terms of Service</a><a href="#">Cookie Policy</a>
+          </div>
+        </div>
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+    </footer>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-logo">
-        <div class="footer-logo-circle"><span>P</span></div>
-        <span class="footer-logo-text">Portfolio Hub</span>
-      </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <h4>Company</h4>
-          <a href="#">About us</a><a href="#">Services</a><a href="#">Contact us</a>
-        </div>
-        <div class="footer-col">
-          <h4>Support</h4>
-          <a href="#">Help center</a><a href="#">Terms of service</a><a href="#">Legal</a><a href="#">Privacy policy</a><a href="#">Status</a>
-        </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <a href="#">Terms of Service</a><a href="#">Cookie Policy</a>
-        </div>
-      </div>
-      <div class="footer-social">
-        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-      </div>
-    </div>
-  </footer>
-</div>
-
-<script src="recruitdash.js"></script>
+  <script src="/config.js"></script>
+  <script src="recruitdash.js"></script>
 </body>
+
 </html>

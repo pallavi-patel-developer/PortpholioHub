@@ -209,7 +209,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost:5000/profile', {
+                const response = await fetch(`${process.env.BACKEND_URL}/profile`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -346,14 +346,14 @@
                     // Get userId from profile data
                     const token = localStorage.getItem('jwtToken');
                     try {
-                        const response = await fetch('http://localhost:5000/profile', {
+                        const response = await fetch(`${process.env.BACKEND_URL}/profile`, {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         const data = await response.json();
                         const userId = data.userId;
 
                         if (data && data._id) {
-                            const res = await fetch('http://localhost:5000/send-contact', {
+                            const res = await fetch(`${process.env.BACKEND_URL}/send-contact`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ userId, name, email, message })

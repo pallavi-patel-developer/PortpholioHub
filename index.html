@@ -448,7 +448,7 @@
   </div>
 
 
-
+  <script src="/config.js"></script>
   <script src="script.js"></script>
 
   <!--  ============== AUTHENTICATION OF LOGOUT ================ -->
@@ -462,7 +462,7 @@
       const token = localStorage.getItem('jwtToken');
 
       if (token) {
-        fetch(`http://localhost:5000/me`, {
+        fetch(`${process.env.BACKEND_URL}/me`, {
           method: "GET",
           headers: {
             'Authorization': `Bearer ${token}`

@@ -1,278 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <!-- IMPORTANT: responsive meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Intern Dashboard</title>
 
-    <link rel="stylesheet" href="studash.css">
+<head>
+  <meta charset="utf-8" />
+  <!-- IMPORTANT: responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Intern Dashboard</title>
 
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+  <link rel="stylesheet" href="studash.css">
 
-    <!-- Font Awesome for placeholders -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet" />
 
-    
-  </head>
-  <body>
-    <div class="page-wrapper">
-      <div class="shell" role="application">
-        <!-- Off-canvas overlay for small screens -->
-        <div class="overlay" id="overlay" aria-hidden="true"></div>
+  <!-- Font Awesome for placeholders -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-        <!-- Sidebar -->
-        <aside class="sidebar" aria-label="Sidebar">
-          <div class="brand">
-            <a href="../index.html" aria-label="PortfolioHub Home">
-              <img src="../resources/logo.png" alt="PortfolioHub Logo" style="width:160px; height:auto;" />
-            </a>
+
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <div class="shell" role="application">
+      <!-- Off-canvas overlay for small screens -->
+      <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Sidebar">
+        <div class="brand">
+          <a href="../index.html" aria-label="PortfolioHub Home">
+            <img src="../resources/logo.png" alt="PortfolioHub Logo" style="width:160px; height:auto;" />
+          </a>
+        </div>
+
+        <nav class="nav" aria-label="Main Navigation">
+          <a href="#" class="active" data-page="dashboard" aria-current="page">
+            <div class="icon"><i class="fa-solid fa-chart-simple"></i></div>
+            Dashboard
+          </a>
+
+          <!-- Jobs becomes SPA link -->
+          <a href="#" data-page="jobs" id="jobs-link">
+            <div class="icon"><i class="fa-solid fa-people-group"></i></div>
+            Internships
+          </a>
+
+          <a href="/form/form.html">
+            <div class="icon"><i class="fa-solid fa-user-shield"></i></div>
+            Edit Portfolio
+          </a>
+
+          <a href="../contact/contact.html">
+            <div class="icon"><i class="fa-solid fa-phone"></i></div>
+            Contact Us
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main area -->
+      <main class="main">
+        <div class="topbar">
+          <div class="topbar-left">
+            <!-- Sidebar toggle shows <=900px -->
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Menu" aria-expanded="false">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="page-title" id="page-title">Dashboard</div>
           </div>
 
-          <nav class="nav" aria-label="Main Navigation">
-            <a href="#" class="active" data-page="dashboard" aria-current="page">
-              <div class="icon"><i class="fa-solid fa-chart-simple"></i></div>
-              Dashboard
-            </a>
-
-            <!-- Jobs becomes SPA link -->
-            <a href="#" data-page="jobs" id="jobs-link">
-              <div class="icon"><i class="fa-solid fa-people-group"></i></div>
-              Internships
-            </a>
-
-            <a href="/form/form.html">
-              <div class="icon"><i class="fa-solid fa-user-shield"></i></div>
-              Edit Portfolio
-            </a>
-
-            <a href="../contact/contact.html">
-              <div class="icon"><i class="fa-solid fa-phone"></i></div>
-              Contact Us
-            </a>
-          </nav>
-        </aside>
-
-        <!-- Main area -->
-        <main class="main">
-          <div class="topbar">
-            <div class="topbar-left">
-              <!-- Sidebar toggle shows <=900px -->
-              <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Menu" aria-expanded="false">
-                <i class="fa-solid fa-bars"></i>
-              </button>
-              <div class="page-title" id="page-title">Dashboard</div>
-            </div>
-
-            <div class="top-actions">
-              <a href="../index.html" class="pill">HOME</a>
-              <a href="../profile/profile.html" class="pill primary">PORTFOLIO</a>
-              <!-- <div class="avatar" title="Your profile">
+          <div class="top-actions">
+            <a href="../index.html" class="pill">HOME</a>
+            <a href="../profile/profile.html" class="pill primary">PORTFOLIO</a>
+            <!-- <div class="avatar" title="Your profile">
                 <img src="../resources/WhatsApp Image 2025-07-04 at 15.39.15_3f54a18a.jpg" alt="Avatar">
               </div> -->
-              <a href="../contact/contact.html" class="search-btn" aria-label="Contact">
-                <i class="fa-solid fa-phone" style="font-size: 16px"></i>
-              </a>
-            </div>
+            <a href="../contact/contact.html" class="search-btn" aria-label="Contact">
+              <i class="fa-solid fa-phone" style="font-size: 16px"></i>
+            </a>
           </div>
+        </div>
 
-          <!-- content grid -->
-          <div class="content-grid">
-            <!-- LEFT: this is the only area we swap -->
-            <div id="view-root" aria-live="polite"></div>
+        <!-- content grid -->
+        <div class="content-grid">
+          <!-- LEFT: this is the only area we swap -->
+          <div id="view-root" aria-live="polite"></div>
 
-            <!-- RIGHT column stays the same always -->
-            <aside class="right-col" aria-label="Right column">
-              <div class="progress-card">
-                <div class="progress-title">Your Profile Progess</div>
-                <div class="progress-sub">
-                  Complete your profile to get better matches
-                </div>
+          <!-- RIGHT column stays the same always -->
+          <aside class="right-col" aria-label="Right column">
+            <div class="progress-card">
+              <div class="progress-title">Your Profile Progess</div>
+              <div class="progress-sub">
+                Complete your profile to get better matches
+              </div>
 
-                <div class="progress-svg-wrap" aria-hidden="false">
-                  <!-- circular progress svg (animated via JS) -->
-                  <svg
-                    id="progress-svg"
-                    width="140"
-                    height="140"
-                    viewBox="0 0 120 120"
-                    role="img"
-                    aria-label="Profile Completion Progress"
-                  >
-                    <defs>
-                      <linearGradient id="pg" x1="1" x2="0">
-                        <stop offset="0%" stop-color="#4b7be6" />
-                        <stop offset="100%" stop-color="#2f5fc1" />
-                      </linearGradient>
-                    </defs>
+              <div class="progress-svg-wrap" aria-hidden="false">
+                <!-- circular progress svg (animated via JS) -->
+                <svg id="progress-svg" width="140" height="140" viewBox="0 0 120 120" role="img"
+                  aria-label="Profile Completion Progress">
+                  <defs>
+                    <linearGradient id="pg" x1="1" x2="0">
+                      <stop offset="0%" stop-color="#4b7be6" />
+                      <stop offset="100%" stop-color="#2f5fc1" />
+                    </linearGradient>
+                  </defs>
 
-                    <!-- background circle -->
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="48"
-                      stroke="#e6eefb"
-                      stroke-width="12"
-                      fill="none"
-                    />
+                  <!-- background circle -->
+                  <circle cx="60" cy="60" r="48" stroke="#e6eefb" stroke-width="12" fill="none" />
 
-                    <!-- progress circle -->
-                    <circle
-                      id="progress"
-                      cx="60"
-                      cy="60"
-                      r="48"
-                      stroke="url(#pg)"
-                      stroke-width="12"
-                      stroke-linecap="round"
-                      fill="none"
-                      stroke-dasharray="302.4"
-                      stroke-dashoffset="302.4"
-                      transform="rotate(-90 60 60)"
-                    ></circle>
+                  <!-- progress circle -->
+                  <circle id="progress" cx="60" cy="60" r="48" stroke="url(#pg)" stroke-width="12"
+                    stroke-linecap="round" fill="none" stroke-dasharray="302.4" stroke-dashoffset="302.4"
+                    transform="rotate(-90 60 60)"></circle>
 
-                    <!-- center text -->
-                    <foreignObject x="20" y="28" width="80" height="80">
-                      <div
-                        xmlns="http://www.w3.org/1999/xhtml"
-                        class="progress-foreign"
-                      >
-                        <div style="text-align: center">
-                          <div
-                            id="progress-text"
-                            style="
+                  <!-- center text -->
+                  <foreignObject x="20" y="28" width="80" height="80">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="progress-foreign">
+                      <div style="text-align: center">
+                        <div id="progress-text" style="
                               font-size: 26px;
                               font-weight: 800;
                               color: #2f5fc1;
-                            "
-                          >
-                            0%
-                          </div>
+                            ">
+                          0%
                         </div>
                       </div>
-                    </foreignObject>
-                  </svg>
-                </div>
-
-                <!-- <a href="../form/form.html" class="progress-cta">Complete Profile</a> -->
+                    </div>
+                  </foreignObject>
+                </svg>
               </div>
-            </aside>
-          </div>
-        </main>
-      </div>
 
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="footer-inner">
-          <!-- Logo -->
-          <div class="footer-logo">
-            <div class="footer-logo-circle">
-              <span>P</span>
+              <!-- <a href="../form/form.html" class="progress-cta">Complete Profile</a> -->
             </div>
-            <span class="footer-logo-text">Portpholio Hub</span>
-          </div>
-
-          <!-- Links -->
-          <div class="footer-links">
-            <div class="footer-col">
-              <h4>Company</h4>
-              <a href="#">About us</a>
-              <a href="#">Services</a>
-              <a href="#">Contact us</a>
-            </div>
-            <div class="footer-col">
-              <h4>Support</h4>
-              <a href="#">Help center</a>
-              <a href="#">Terms of service</a>
-              <a href="#">Legal</a>
-              <a href="#">Privacy policy</a>
-              <a href="#">Status</a>
-            </div>
-            <div class="footer-col">
-              <h4>Legal</h4>
-              <a href="#">Terms of Service</a>
-              <a href="#">Cookie Policy</a>
-            </div>
-          </div>
-
-          <!-- Social Icons -->
-          <div class="footer-social">
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#"><i class="fa-brands fa-youtube"></i></a>
-            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-          </div>
+          </aside>
         </div>
-      </footer>
+      </main>
     </div>
 
-    <!-- ======= Templates we swap into #view-root (left column) ======= -->
-    <template id="tpl-dashboard">
-      <!-- Hero + greeting -->
-      <div class="hero" role="region" aria-label="Greeting">
-        <div class="hero-left">
-          <h1 class="greeting">Hello <span id="user-name">Guest</span></h1>
-          <p class="subtext">
-            Ready to land on your dream career?<br />Let's Help!
-          </p>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <!-- Logo -->
+        <div class="footer-logo">
+          <div class="footer-logo-circle">
+            <span>P</span>
+          </div>
+          <span class="footer-logo-text">Portpholio Hub</span>
         </div>
 
-        <img
-    id="user-photo"
-    src="../resources/Generative_Object.png"
-    alt="User profile photo"
-    class="hero-image"
-        />
-      </div>
-
-      <!-- Statistics section -->
-      <div class="section-title">Statistics</div>
-
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fa-solid fa-briefcase"></i>
+        <!-- Links -->
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Company</h4>
+            <a href="#">About us</a>
+            <a href="#">Services</a>
+            <a href="#">Contact us</a>
           </div>
-          <div class="stat-body">
-            <div class="stat-number">20</div>
-            <div class="stat-label">Application applied</div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help center</a>
+            <a href="#">Terms of service</a>
+            <a href="#">Legal</a>
+            <a href="#">Privacy policy</a>
+            <a href="#">Status</a>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
           </div>
         </div>
 
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fa-solid fa-calendar-check"></i>
-          </div>
-          <div class="stat-body">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Interview Schedule</div>
-          </div>
+        <!-- Social Icons -->
+        <div class="footer-social">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
         </div>
       </div>
+    </footer>
+  </div>
 
-      <!-- Job Summary Table -->
-      <div class="job-summary">
-        <h2 class="job-title">Job Summary Table</h2>
+  <!-- ======= Templates we swap into #view-root (left column) ======= -->
+  <template id="tpl-dashboard">
+    <!-- Hero + greeting -->
+    <div class="hero" role="region" aria-label="Greeting">
+      <div class="hero-left">
+        <h1 class="greeting">Hello <span id="user-name">Guest</span></h1>
+        <p class="subtext">
+          Ready to land on your dream career?<br />Let's Help!
+        </p>
+      </div>
 
-        <div class="job-table-wrap">
-          <table class="job-table">
-            <thead>
-              <tr>
-                <th>Job Title</th>
-                <th>Company</th>
-                <th>Applied On</th>
-                <th>Status</th>
-                <!-- <th>Applicants</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <!-- <tr>
+      <img id="user-photo" src="../resources/Generative_Object.png" alt="User profile photo" class="hero-image" />
+    </div>
+
+    <!-- Statistics section -->
+    <div class="section-title">Statistics</div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fa-solid fa-briefcase"></i>
+        </div>
+        <div class="stat-body">
+          <div class="stat-number">20</div>
+          <div class="stat-label">Application applied</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+        <div class="stat-body">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Interview Schedule</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Job Summary Table -->
+    <div class="job-summary">
+      <h2 class="job-title">Job Summary Table</h2>
+
+      <div class="job-table-wrap">
+        <table class="job-table">
+          <thead>
+            <tr>
+              <th>Job Title</th>
+              <th>Company</th>
+              <th>Applied On</th>
+              <th>Status</th>
+              <!-- <th>Applicants</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr>
                 <td data-label="Job Title">UI/UX Designer</td>
                 <td data-label="Company">YELO-INDIA</td>
                 <td data-label="Applied On"><time datetime="2025-03-20">Mar 20, 2025</time></td>
@@ -307,15 +270,15 @@
                 <td data-label="Status" class="status-closed">Closed</td>
                 <td data-label="Applicants">15</td>
               </tr> -->
-            </tbody>
-          </table>
-        </div>
+          </tbody>
+        </table>
       </div>
-    </template>
+    </div>
+  </template>
   <!--    ============================ JOB STATUS ===================== -->
-    <template id="tpl-jobs">
-      <!-- <div class="jobs-header"> -->
-        <!-- <div class="page-title" style="font-size:clamp(18px,2.2vw,28px)">Status</div>
+  <template id="tpl-jobs">
+    <!-- <div class="jobs-header"> -->
+    <!-- <div class="page-title" style="font-size:clamp(18px,2.2vw,28px)">Status</div>
         <div class="jobs-filters">
           <label class="jobs-filter-wrap">
             <select class="jobs-filter" aria-label="Filter by status">
@@ -333,10 +296,10 @@
               <option>Oldest</option>
             </select>
           </label> -->
-        <!-- </div> -->
-      <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
 
-      <div id="studentJobs"> 
+    <div id="studentJobs">
       <div class="jobs-list" id="jobs-list">
         <!-- <div class="job-card">
           <div class="job-info">
@@ -366,23 +329,25 @@
         </div> -->
 
         <!-- <div class="job-card"> -->
-          <!-- <div class="job-info"> -->
-            <!-- <div class="job-title-line">Frontend Developer for Fintech App</div>
+        <!-- <div class="job-info"> -->
+        <!-- <div class="job-title-line">Frontend Developer for Fintech App</div>
             <div class="job-sub">FinanceHub Inc. • <time datetime="2025-04-05">April 5, 2025</time></div>
             <div class="job-status"><span class="dot blue"></span>Under Review</div>
           </div>
           <button class="view-btn">View Details</button>
         </div> -->
       </div>
-       </div>
-       
-    </template>
-    <!-- ======= /Templates ======= -->
+    </div>
 
-    <script src="studash.js"></script>
+  </template>
+  <!-- ======= /Templates ======= -->
 
-    <!--   INTERNSHIPS SECTION IN STUDENT DASHBOARD  -->
+  <script src="/config.js"></script>
+  <script src="/intern dashboard/studash.js"></script>
+
+  <!--   INTERNSHIPS SECTION IN STUDENT DASHBOARD  -->
 
 
-  </body>
+</body>
+
 </html>

@@ -110,7 +110,7 @@ async function getAppliedJobsFromDB() {
   if (!token) return [];
 
   try {
-    const res = await fetch('http://localhost:5000/myApplications', {
+    const res = await fetch(`${process.env.BACKEND_URL}/myApplications`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) throw new Error('Failed to fetch applied jobs');
@@ -223,7 +223,7 @@ async function fetchAndDisplayJobs() {
   jobContainer.innerHTML = '<p></p>';
 
   try {
-    const response = await fetch('http://localhost:5000/jobs');
+    const response = await fetch(`${process.env.BACKEND_URL}/jobs`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const jobs = await response.json();
     jobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -297,7 +297,7 @@ document.addEventListener('click', async e => {
     applyButton.textContent = 'Applying...';
 
     try {
-      const response = await fetch('http://localhost:5000/applyInternship', {
+      const response = await fetch(`${process.env.BACKEND_URL}/applyInternship`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -318,7 +318,7 @@ document.addEventListener('click', async e => {
 
         try {
           await fetch(
-            `http://localhost:5000/jobs/${internshipId}/incrementApplicants`,
+            `${process.env.BACKEND_URL}/jobs/${internshipId}/incrementApplicants`,
             {
               method: 'PUT',
               headers: { Authorization: `Bearer ${token}` }

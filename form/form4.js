@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
 
-            const response = await fetch('http://localhost:5000/forms', {
+            const response = await fetch(`${process.env.BACKEND_URL}/forms`, {
                 method: 'POST',
                 body: finalFormData,
                 headers: { 'Authorization': `Bearer ${token}` },

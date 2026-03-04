@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="profile/profile.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e674bba739.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="/config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" />
 </head>
 
 <body>
@@ -279,7 +280,7 @@
                 let response;
                 if (portfolioId) {
                     // Fetch the specific profile using the ID from the URL
-                    response = await fetch(`http://localhost:5000/profile/${portfolioId}`);
+                    response = await fetch(`${process.env.BACKEND_URL}/profile/${portfolioId}`);
                 } else {
                     // Fallback to fetch logged-in user's own profile
                     const token = localStorage.getItem('jwtToken');
@@ -287,7 +288,7 @@
                         document.body.innerHTML = "<h2 style='color: red; font-size: 20px; font-weight: 700; text-align: center; margin-top: 50px;'>PLEASE LOG IN TO VIEW PORTFOLIO</h2>";
                         return;
                     }
-                    response = await fetch(`http://localhost:5000/profile`, {
+                    response = await fetch(`${process.env.BACKEND_URL}/profile`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                 }

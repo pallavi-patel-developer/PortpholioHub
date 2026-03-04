@@ -88,7 +88,8 @@
     </form>
     <div id="alertBox" class="alert" style="display:none;"></div>
   </div>
-  <!-- <script src="form4.js"></script> -->
+  <script src="/config.js"></script>
+  <script src="./form4.js"></script>
 
 
   <script>
@@ -183,7 +184,7 @@
           submitBtn.disabled = true;
           submitBtn.textContent = 'Submitting...';
 
-          const response = await fetch(`http://localhost:5000/forms`, {
+          const response = await fetch(`${process.env.BACKEND_URL}/forms`, {
             method: 'POST',
             body: finalFormData,
             credentials: 'include',

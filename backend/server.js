@@ -10,6 +10,9 @@ const path = require('path');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
 
 const { uploadOnCloudinary } = require('./config/cloudinary.js');
 const connectDB = require('./config/db');
@@ -36,6 +39,7 @@ app.use(cors({
   origin: [
     "http://127.0.0.1:5500",
     "http://localhost:3000",
+    process.env.FRONTEND_URL,
     "https://portpholiohub-frontend.onrender.com"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
@@ -43,8 +47,50 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'portfolio-hub-secret',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI || process.env.MONGODB_URI }),
+  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
+}));
+
 app.use(passport.initialize());
+app.use(passport.session());
+app.get('/config.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.send(`
+    window.process = {
+      env: {
+        BACKEND_URL: "${process.env.BACKEND_URL}"
+      }
+    };
+  `);
+});
+
 app.use(express.static(path.join(dirname)));
+
+// Centralized Serialization
+passport.serializeUser((user, done) => {
+  const type = user.constructor.modelName === 'userIntern' ? 'intern' : 'recruiter';
+  done(null, { id: user._id, type });
+});
+
+passport.deserializeUser(async (data, done) => {
+  try {
+    const Model = data.type === 'intern' ? UserIntern : UserRecruiter;
+    const user = await Model.findById(data.id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
+// Load Strategies
+require('./auth/google');
+require('./auth/github');
+
 
 const uploadsDir = './uploads';
 if (!fs.existsSync(uploadsDir)) { fs.mkdirSync(uploadsDir); }
@@ -149,6 +195,48 @@ app.get('/forms', (req, res) => {
 app.get('/recruiter-signup', (req, res) => {
   res.send("Recruiter signup sucessfull");
 })
+
+// OAuth Routes
+const handleOAuthCallback = (req, res, type) => {
+  const payload = { id: req.user._id, username: req.user.username, type };
+  const token = jwt.sign(payload, jwtOptions.secretOrKey, { expiresIn: '1d' });
+  const redirectBase = type === 'intern' ? '/intern dashboard/studash.html' : '/recruiter-Index/recruiter-Index.html';
+  const frontendUrl = process.env.FRONTEND_URL;
+  res.redirect(`${frontendUrl}${redirectBase}?token=${token}&status=${req.authInfo?.new ? 'signup' : 'login'}_success`);
+};
+
+// Google
+app.get('/auth/google/intern', (req, res, next) => {
+  passport.authenticate('google', { scope: ['profile', 'email'], state: 'intern' })(req, res, next);
+});
+app.get('/auth/google/recruiter', (req, res, next) => {
+  passport.authenticate('google', { scope: ['profile', 'email'], state: 'recruiter' })(req, res, next);
+});
+
+app.get('/auth/google/intern/callback',
+  passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_URL}/login/login.html?error=google_auth_failed` }),
+  (req, res) => {
+    const type = req.authInfo?.type || (req.query.state === 'recruiter' ? 'recruiter' : 'intern');
+    handleOAuthCallback(req, res, type);
+  }
+);
+
+// GitHub
+app.get('/auth/github/intern', (req, res, next) => {
+  passport.authenticate('github', { scope: ['user:email'], state: 'intern' })(req, res, next);
+});
+app.get('/auth/github/recruiter', (req, res, next) => {
+  passport.authenticate('github', { scope: ['user:email'], state: 'recruiter' })(req, res, next);
+});
+
+app.get('/auth/callback/github',
+  passport.authenticate('github', { failureRedirect: `${process.env.FRONTEND_URL}/login/login.html?error=github_auth_failed` }),
+  (req, res) => {
+    const type = req.authInfo?.type || (req.query.state === 'recruiter' ? 'recruiter' : 'intern');
+    handleOAuthCallback(req, res, type);
+  }
+);
+
 
 app.get(
   '/profile', authenticateIntern, async (req, res) => {

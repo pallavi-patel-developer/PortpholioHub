@@ -301,8 +301,8 @@ async function initializeDashboard() {
   try {
     const token = localStorage.getItem("jwtToken");
     const [jobsRes, applicantsRes] = await Promise.all([
-      fetch("http://localhost:5000/recruiter/jobs", { headers: { "Authorization": `Bearer ${token}` } }),
-      fetch("http://localhost:5000/recruiter/applicants", { headers: { "Authorization": `Bearer ${token}` } })
+      fetch(`${process.env.BACKEND_URL}/recruiter/jobs`, { headers: { "Authorization": `Bearer ${token}` } }),
+      fetch(`${process.env.BACKEND_URL}/recruiter/applicants`, { headers: { "Authorization": `Bearer ${token}` } })
     ]);
 
     if (!jobsRes.ok) {
@@ -396,7 +396,7 @@ async function loadApplicants() {
   const token = localStorage.getItem("jwtToken");
 
   try {
-    const res = await fetch("http://localhost:5000/recruiter/applicants", {
+    const res = await fetch(`${process.env.BACKEND_URL}/recruiter/applicants`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -500,7 +500,7 @@ function renderPagination(total) {
 async function updateApplicationStatus(applicationId, status) {
   const token = localStorage.getItem("jwtToken");
   try {
-    const res = await fetch(`http://localhost:5000/recruiter/applicants/${applicationId}/status`, {
+    const res = await fetch(`${process.env.BACKEND_URL}/recruiter/applicants/${applicationId}/status`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -585,7 +585,7 @@ document.addEventListener("click", async (e) => {
 
 
     try {
-      const res = await fetch("http://localhost:5000/postJob", {
+      const res = await fetch(`${process.env.BACKEND_URL}/postJob`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -627,7 +627,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function loadJobListings() {
   try {
-    const res = await fetch("http://localhost:5000/recruiter/jobs", {
+    const res = await fetch(`${process.env.BACKEND_URL}/recruiter/jobs`, {
       headers: { "Authorization": `Bearer ${token}` },
       credentials: "include"
     });
@@ -701,7 +701,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function loadDashboardStats() {
   try {
-    const res = await fetch("http://localhost:5000/recruiter/jobs", {
+    const res = await fetch(`${process.env.BACKEND_URL}/recruiter/jobs`, {
       headers: { "Authorization": `Bearer ${token}` },
       credentials: "include"
     });
@@ -734,7 +734,7 @@ document.addEventListener("click", async (e) => {
     if (!confirm("Are you sure you want to delete this job?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/jobs/${jobId}`, {
+      const res = await fetch(`${process.env.BACKEND_URL}/jobs/${jobId}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -760,7 +760,7 @@ document.addEventListener("click", async (e) => {
     if (!newLocation) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/jobs/${jobId}`, {
+      const res = await fetch(`${process.env.BACKEND_URL}/jobs/${jobId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

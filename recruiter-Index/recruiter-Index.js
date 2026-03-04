@@ -137,7 +137,7 @@ function showAlert(message, type = "success") {
 
 const grid = document.getElementById("profileGrid");
 const paginationDiv = document.getElementById("pagination");
-const API_URL = "http://localhost:5000/recruiter/profiles";
+const API_URL = `${process.env.BACKEND_URL}/recruiter/profiles`;
 
 async function fetchProfiles(page = 1) {
      try {
@@ -227,10 +227,19 @@ fetchProfiles(1);
 document.addEventListener("DOMContentLoaded", () => {
      const authLinks = document.getElementById("auth-links");
      const logoutBtn = document.getElementById("logout-btn");
+
+     // Handle OAuth token from URL
+     const urlParams = new URLSearchParams(window.location.search);
+     const tokenFromUrl = urlParams.get('token');
+     if (tokenFromUrl) {
+          localStorage.setItem('jwtToken', tokenFromUrl);
+          window.history.replaceState({}, document.title, window.location.pathname);
+     }
+
      const token = localStorage.getItem('jwtToken');
 
      if (token) {
-          fetch("http://localhost:5000/recruiter/me", {
+          fetch(`${process.env.BACKEND_URL}/recruiter/me`, {
                method: "GET",
                headers: {
                     'Authorization': `Bearer ${token}`

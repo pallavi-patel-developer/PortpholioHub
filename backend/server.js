@@ -61,11 +61,9 @@ app.use(passport.session());
 app.get('/config.js', (req, res) => {
   res.setHeader('Content-Type', 'application/javascript');
   res.send(`
-    window.process = {
-      env: {
-        BACKEND_URL: "${process.env.BACKEND_URL}"
-      }
-    };
+    window.process = window.process || { env: {} };
+    window.process.env = window.process.env || {};
+    window.process.env.BACKEND_URL = "${process.env.BACKEND_URL || 'http://localhost:5000'}";
   `);
 });
 
@@ -201,7 +199,7 @@ const handleOAuthCallback = (req, res, type) => {
   const payload = { id: req.user._id, username: req.user.username, type };
   const token = jwt.sign(payload, jwtOptions.secretOrKey, { expiresIn: '1d' });
   const redirectBase = type === 'intern' ? '/intern dashboard/studash.html' : '/recruiter-Index/recruiter-Index.html';
-  const frontendUrl = process.env.FRONTEND_URL;
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
   res.redirect(`${frontendUrl}${redirectBase}?token=${token}&status=${req.authInfo?.new ? 'signup' : 'login'}_success`);
 };
 
@@ -289,15 +287,27 @@ app.get('/profile/:id', async (req, res) => {
     let portfolio = await internForm.findById(pId).lean();
 
     if (!portfolio) {
+      // Try to find by userId in internForm (e.g. if pId is a userId, not an internForm _id)
+      portfolio = await internForm.findOne({ userId: pId }).lean();
+    }
+
+    if (!portfolio) {
       portfolio = await Profile.findById(pId).lean();
       if (portfolio) {
         portfolio = {
           _id: portfolio._id,
+          userId: portfolio.userId || portfolio._id,
           fullName: portfolio.name || "Applicant",
           role: "Candidate",
           city: "Unknown",
           photo: portfolio.profileImageUrl || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-          skills: []
+          skills: [],
+          education: [],
+          experience: [],
+          projects: [],
+          aboutMe: "",
+          resume: "",
+          contactDetails: {}
         };
       }
     }
@@ -305,14 +315,27 @@ app.get('/profile/:id', async (req, res) => {
     if (!portfolio) {
       const user = await UserIntern.findById(pId).lean();
       if (user) {
-        portfolio = {
-          _id: user._id,
-          fullName: user.username || "Applicant",
-          role: "Candidate",
-          city: "Unknown",
-          photo: "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-          skills: []
-        };
+        // Also check if user has an internForm by userId
+        const userPortfolio = await internForm.findOne({ userId: user._id }).lean();
+        if (userPortfolio) {
+          portfolio = userPortfolio;
+        } else {
+          portfolio = {
+            _id: user._id,
+            userId: user._id,
+            fullName: user.username || "Applicant",
+            role: "Candidate",
+            city: "Unknown",
+            photo: "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
+            skills: [],
+            education: [],
+            experience: [],
+            projects: [],
+            aboutMe: "",
+            resume: "",
+            contactDetails: { contactEmail: user.email || "" }
+          };
+        }
       }
     }
 
@@ -322,6 +345,7 @@ app.get('/profile/:id', async (req, res) => {
 
     res.status(200).json(portfolio);
   } catch (err) {
+    console.error('Profile fetch error:', err);
     res.status(500).json({ message: "Server error while fetching portfolio" });
   }
 });
@@ -438,20 +462,34 @@ app.get("/recruiter/applicants", authenticateRecruiter, async (req, res) => {
       } else if (prof) {
         portfolio = {
           _id: prof._id,
+          userId: uId,
           fullName: prof.name || user.username || "Applicant",
           role: "Candidate",
           city: "Unknown",
           photo: prof.profileImageUrl || "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-          skills: []
+          skills: [],
+          education: [],
+          experience: [],
+          projects: [],
+          aboutMe: "",
+          resume: "",
+          contactDetails: { contactEmail: user.email || "" }
         };
       } else {
         portfolio = {
           _id: user._id || app.userId,
+          userId: uId,
           fullName: user.username || "Applicant",
           role: "Candidate",
           city: "Unknown",
           photo: "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-          skills: []
+          skills: [],
+          education: [],
+          experience: [],
+          projects: [],
+          aboutMe: "",
+          resume: "",
+          contactDetails: { contactEmail: user.email || "" }
         };
       }
 
@@ -685,7 +723,7 @@ app.post('/forms', passport.authenticate('jwt', { session: false }),
         fullName: req.body.fullName,
         role: req.body.role,
         city: req.body.city,
-        dateOfBirth: req.body.dob,
+        dateOfBirth: req.body.dob ? req.body.dob : null,
         gender: req.body.gender,
         aboutMe: req.body.aboutMe,
         photo: photoUrl,
@@ -719,7 +757,8 @@ app.post('/forms', passport.authenticate('jwt', { session: false }),
       });
 
     } catch (error) {
-      res.status(500).json({ message: 'Server error while saving portfolio.' });
+      console.error('Portfolio save error:', error);
+      res.status(500).json({ message: 'Server error while saving portfolio.', error: error.message });
     }
   }
 );

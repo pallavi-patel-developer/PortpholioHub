@@ -9,84 +9,166 @@
     <link rel="stylesheet" href="profile.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e674bba739.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css" />
+    <script src="/config.js"></script>
+    <style>
+        /* ===== LOADING OVERLAY ===== */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-spinner {
+            width: 56px;
+            height: 56px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #ff004f;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            color: #ccc;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .loader-skeleton {
+            margin-top: 40px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* ===== PAGE FADE-IN ===== */
+        .page-content {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .page-content.loaded {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="header">
-        <div class="container">
-            <nav>
-                <span class="qq">Welcome</span>
-                <ul>
-                    <li><a href="../index.html">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <i class="fas fa-times"></i>
-                </ul>
-                <i class="fas fa-bars"></i>
-            </nav>
-
-            <div class="header-text">
-                <p><span class="role" id="typer"> </p>
-                <h1>Hi, I'm <span class="fullName"></span><br> from Jhansi</h1>
-                <img src="" alt="">
-            </div>
-            <div id="resume-btn">
-                <a href="" download class="btn btn2">Download Resume</a>
-            </div>
-        </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Portfolio...</div>
     </div>
 
-    <!-- Cursor -->
-    <div id="cursor"></div>
-    <div id="cursorblur"></div>
+    <div class="page-content" id="pageContent">
+        <div id="header">
+            <div class="container">
+                <nav>
+                    <span class="qq">Welcome</span>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <i class="fas fa-times"></i>
+                    </ul>
+                    <i class="fas fa-bars"></i>
+                </nav>
 
-    <!-- ----------ABOUT---------- -->
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="about-col-1" data-aos="fade-right">
-                    <img src="">
+                <div class="header-text">
+                    <p><span class="role" id="typer"> </p>
+                    <h1>Hi, I'm <span class="fullName"></span><br> from Jhansi</h1>
+                    <img src="" alt="">
                 </div>
-                <div class="about-col-2" data-aos="fade-left">
-                    <h1 class="sub-title">About Me</h1>
-                    <p> </p>
-                    <div class="tab-titles">
-                        <p class="tab-links active-link" onclick="openTab('skills', event)">Skills</p>
-                        <p class="tab-links" onclick="openTab('experience', event)">Experience</p>
-                        <p class="tab-links" onclick="openTab('education',event)">Education</p>
-                    </div>
-                    <div class="tab-contents active-tab" id="skills">
-                        <ul>
-                            <li><span></span><br></li>
-                            <li><span></span><br></li>
-                            <li><span></span><br></li>
-                            <li><span></span></br></li>
-
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="experience">
-                        <ul>
-                            <li><span></span><br></li>
-                            <li><span></span><br></li>
-                            <li><span></span><br></li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="education">
-                        <ul>
-                            <li><span></span><br> </li>
-                            <li><span></span><br></li>
-                            <li><span></span><br></li>
-                        </ul>
-                    </div>
+                <div id="resume-btn">
+                    <a href="" download class="btn btn2">Download Resume</a>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- ----------SERVICES---------- -->
-    <!-- <section id="services">
+
+        <!-- Cursor -->
+        <div id="cursor"></div>
+        <div id="cursorblur"></div>
+
+        <!-- ----------ABOUT---------- -->
+        <div id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="about-col-1" data-aos="fade-right">
+                        <img src="">
+                    </div>
+                    <div class="about-col-2" data-aos="fade-left">
+                        <h1 class="sub-title">About Me</h1>
+                        <p> </p>
+                        <div class="tab-titles">
+                            <p class="tab-links active-link" onclick="openTab('skills', event)">Skills</p>
+                            <p class="tab-links" onclick="openTab('experience', event)">Experience</p>
+                            <p class="tab-links" onclick="openTab('education',event)">Education</p>
+                        </div>
+                        <div class="tab-contents active-tab" id="skills">
+                            <ul>
+                                <li><span></span><br></li>
+                                <li><span></span><br></li>
+                                <li><span></span><br></li>
+                                <li><span></span></br></li>
+
+                            </ul>
+                        </div>
+                        <div class="tab-contents" id="experience">
+                            <ul>
+                                <li><span></span><br></li>
+                                <li><span></span><br></li>
+                                <li><span></span><br></li>
+                            </ul>
+                        </div>
+                        <div class="tab-contents" id="education">
+                            <ul>
+                                <li><span></span><br> </li>
+                                <li><span></span><br></li>
+                                <li><span></span><br></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ----------SERVICES---------- -->
+        <!-- <section id="services">
     <div class="container">
       <h1 class="sub-title" data-aos="zoom-in">What I Offer</h1>
       <div class="services-list">
@@ -111,39 +193,39 @@
       </div>
     </div>
   </section> -->
-    <!-- ----------PORTFOLIO--------- -->
-    <div id="portfolio">
-        <div class="container">
-            <h1 class="sub-title">My Works</h1>
-            <div class="work-list">
-                <div class="work">
-                    <img src="" alt="image not found">
-                    <div class="layer">
-                        <h2></h2>
-                        <p></p>
-                        <a href=""><i class="fas fa-external-link-alt"></i></a>
+        <!-- ----------PORTFOLIO--------- -->
+        <div id="portfolio">
+            <div class="container">
+                <h1 class="sub-title">My Works</h1>
+                <div class="work-list">
+                    <div class="work">
+                        <img src="" alt="image not found">
+                        <div class="layer">
+                            <h2></h2>
+                            <p></p>
+                            <a href=""><i class="fas fa-external-link-alt"></i></a>
+                        </div>
                     </div>
-                </div>
-                <div class="work">
-                    <img src="" alt="image not found">
-                    <div class="layer">
-                        <h2></h2>
-                        <p></p>
-                        <a href=""><i class="fas fa-external-link-alt"></i></a>
+                    <div class="work">
+                        <img src="" alt="image not found">
+                        <div class="layer">
+                            <h2></h2>
+                            <p></p>
+                            <a href=""><i class="fas fa-external-link-alt"></i></a>
+                        </div>
                     </div>
-                </div>
-                <div class="work">
-                    <img src="" alt="Coming soon">
-                    <div class="layer">
-                        <h2></h2>
-                        <p></p>
-                        <a href=""><i class="fas fa-external-link-alt"></i></a>
+                    <div class="work">
+                        <img src="" alt="Coming soon">
+                        <div class="layer">
+                            <h2></h2>
+                            <p></p>
+                            <a href=""><i class="fas fa-external-link-alt"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
+            <a href="" class="btn">See more</a>
         </div>
-        <a href="" class="btn">See more</a>
-    </div>
     </div>
 
     <!-- ----------CONTACT---------- -->
@@ -177,8 +259,7 @@
             <p>copyright @Vedseem Info Tech Pvt Ltd<i class="fas fa-heart"></i> by </p>
         </div>
     </div>
-
-
+    </div> <!-- end .page-content -->
 
     <!-- SCRIPTS -->
     <!-- <script src="profile.js"></script> -->
@@ -201,9 +282,18 @@
             document.getElementById(tabName).classList.add('active-tab');
         }
 
+        // Helper: hide loader & reveal page
+        function showPage() {
+            const overlay = document.getElementById('loadingOverlay');
+            const content = document.getElementById('pageContent');
+            if (overlay) overlay.classList.add('hidden');
+            if (content) content.classList.add('loaded');
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
             const token = localStorage.getItem('jwtToken');
             if (!token) {
+                showPage();
                 alert("You must be logged in to view your profile.");
                 return;
             }
@@ -325,7 +415,11 @@
                         contactResumeBtn.textContent = "Download Resume";
                     }
                 }
+                // Reveal page content
+                showPage();
+
             } catch (err) {
+                showPage();
                 alert("Error loading profile. Please try again.");
                 console.error('Profile load error:', err);
             }

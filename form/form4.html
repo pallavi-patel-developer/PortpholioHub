@@ -100,10 +100,15 @@
 
       // Convert Data URL to File object
       function dataURLtoFile(dataurl, filename) {
-        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while (n--) u8arr[n] = bstr.charCodeAt(n);
-        return new File([u8arr], filename, { type: mime });
+        if (!dataurl || typeof dataurl !== 'string') return null;
+        try {
+          let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+          while (n--) u8arr[n] = bstr.charCodeAt(n);
+          return new File([u8arr], filename, { type: mime });
+        } catch (e) {
+          return null;
+        }
       }
 
       function showAlert(message, type = "success") {
@@ -156,28 +161,28 @@
         finalFormData.append('experience', JSON.stringify(step2Data.experience || []));
         finalFormData.append('projects', JSON.stringify(step3Data.projects || []));
 
-        // Append photo and resume as files
+        // Append photo and resume as files safely
         if (step1Data.photo) {
-          finalFormData.append('photo', dataURLtoFile(step1Data.photo, "profile.jpg"));
+          const file = dataURLtoFile(step1Data.photo, "profile.jpg");
+          if (file) finalFormData.append('photo', file);
         }
         if (step1Data.resume) {
-          finalFormData.append('resume', dataURLtoFile(step1Data.resume, "resume.pdf"));
-        }
-        if (step3Data.projects && step3Data.projects[0]?.photo) {
-          finalFormData.append('projectPhoto1', dataURLtoFile(step3Data.projects[0].photo, "project1.jpg"));
-        }
-        if (step3Data.projects && step3Data.projects[1]?.photo) {
-          finalFormData.append('projectPhoto2', dataURLtoFile(step3Data.projects[1].photo, "project2.jpg"));
-        }
-        if (step3Data.projects && step3Data.projects[2]?.photo) {
-          finalFormData.append('projectPhoto3', dataURLtoFile(step3Data.projects[2].photo, "project3.jpg"));
+          const file = dataURLtoFile(step1Data.resume, "resume.pdf");
+          if (file) finalFormData.append('resume', file);
         }
 
-        for (let i = 1; i <= 3; i++) {
-          const photoInput = document.getElementById(`photo${i}`);
-          if (photoInput && photoInput.files[0]) {
-            finalFormData.append(`projectPhoto${i}`, photoInput.files[0]);
-          }
+        // Append project photos from Step 3 (saved as photoDataURL)
+        if (step3Data.projects && step3Data.projects[0]?.photo) {
+          const file = dataURLtoFile(step3Data.projects[0].photo, "project1.jpg");
+          if (file) finalFormData.append('projectPhoto1', file);
+        }
+        if (step3Data.projects && step3Data.projects[1]?.photo) {
+          const file = dataURLtoFile(step3Data.projects[1].photo, "project2.jpg");
+          if (file) finalFormData.append('projectPhoto2', file);
+        }
+        if (step3Data.projects && step3Data.projects[2]?.photo) {
+          const file = dataURLtoFile(step3Data.projects[2].photo, "project3.jpg");
+          if (file) finalFormData.append('projectPhoto3', file);
         }
 
         try {

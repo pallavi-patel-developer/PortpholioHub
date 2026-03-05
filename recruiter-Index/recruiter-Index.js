@@ -169,7 +169,7 @@ function renderProfiles(profiles) {
                     ${profile.skills?.map(skill => `<div class="skill">${skill.name}</div>`).join("") || "No skills listed."}
                </div>
                <div class="portfolio">
-                    <button data-portfolio-id="${profile._id}" class="portfolio-btn protected-link">View Portfolio</button>
+                    <button data-portfolio-id="${(profile._id?.$oid || profile._id) || ''}" class="portfolio-btn protected-link">View Portfolio</button>
                </div>
           `;
           fragment.appendChild(card);
@@ -188,7 +188,7 @@ grid.addEventListener('click', function (event) {
 
           const portfolioId = event.target.dataset.portfolioId;
           if (portfolioId) {
-               window.location.href = `../portfolio-viewer.html?id=${portfolioId}`;
+               window.location.href = `../portfolio-viewer?id=${portfolioId}`;
           }
      }
 });

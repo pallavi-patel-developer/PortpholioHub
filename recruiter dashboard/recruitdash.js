@@ -409,13 +409,16 @@ async function loadApplicants() {
     const applications = await res.json();
     const validApplications = applications.filter(app => app.portfolio);
     allFetchedApplicants = validApplications.map(app => {
+      // Safely extract _id even if MongoDB returns nested $oid
+      const portfolioId = app.portfolio._id?.$oid || app.portfolio._id;
+
       return {
         applicationId: app.applicationId,
         status: app.status,
         jobTitle: app.jobTitle || "Unknown Job",
         userEmail: app.userEmail || "No Email Provided",
         appliedOn: app.appliedOn ? new Date(app.appliedOn).toLocaleDateString() : "Unknown Date",
-        id: app.portfolio._id,
+        id: portfolioId,
         name: app.portfolio.fullName,
         role: app.portfolio.role,
         location: app.portfolio.city,
@@ -462,7 +465,8 @@ function renderApplicants() {
     return 'status-review'; // for 'Under Review'
   };
 
-  grid.innerHTML = pageItems.map(app => `
+  grid.innerHTML = pageItems.map(app => {
+    return `
     <div class="card" id="application-${app.applicationId}">
       <div class="card-header">
         <img src="${app.img}" class="profile-pic" alt="${app.name}">
@@ -483,7 +487,7 @@ function renderApplicants() {
    
       </div>
     </div>
-  `).join('');
+  `}).join('');
 
   renderPagination(totalPages);
 }
@@ -559,7 +563,7 @@ document.addEventListener("click", e => {
   if (e.target.matches('.btn-view')) {
     const portfolioId = e.target.dataset.portfolioId;
     if (portfolioId) {
-      window.open(`../portfolio-viewer.html?id=${portfolioId}`, '_blank');
+      window.open(`../portfolio-viewer?id=${portfolioId}`, '_blank');
     }
   }
 

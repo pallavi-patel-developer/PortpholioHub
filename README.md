@@ -5,16 +5,12 @@
 </div>
 
 ---
-<div>  
-  <span>
+<div style="display: flex; align-items: center; justify-content: center;">  
      <img src="recruiter dashboard/recruitdash.png" alt="Talent Directory" width="400" />
-
-    <img src="resources/Generative_Object.png" alt="Talent Directory" width="400" />
- 
-  
+    <img src="resources/Generative_Object.png" alt="Talent Directory" width="400" /> 
   <img src="resources/how it works girl.png" alt="How It Works" width="400" />
   <br><br>
-   </span>
+ 
 </div>
 
 ---

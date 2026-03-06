@@ -1,5 +1,4 @@
 <div align="center">
-  <img src="resources/logo.png" alt="PortfolioHub Logo" width="200" />
   <h1>PortfolioHub</h1>
   <p><strong>Showcasing Your Talent & Connecting Professionals</strong></p>
   <p>Elevate your career with a captivating portfolio. PortfolioHub helps professionals stand out in a competitive job market by blending creativity with functionality.</p>

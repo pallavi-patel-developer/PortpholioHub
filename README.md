@@ -5,6 +5,17 @@
 </div>
 
 ---
+<div>  
+     <img src="recruiter dashboard/recruitdash.png" alt="Talent Directory" width="800" />
+  <br><br>
+    <img src="resources/Generative_Object.png" alt="Talent Directory" width="800" />
+  <br><br>
+  
+  <img src="resources/how it works girl.png" alt="How It Works" width="400" />
+  <br><br>
+</div>
+
+---
 
 ## 📖 Table of Contents
 - [About the Project](#about-the-project)
@@ -61,14 +72,8 @@ Whether you're looking to apply for an internship, showcase your projects, or fi
 ## 📸 Screenshots
 
 <div align="center">
-  <img src="resources/Screenshot (31).png" alt="PortfolioHub Home Screen" width="800" />
+  <img src="resources/Screenshot 2026-03-07 002816.png" alt="PortfolioHub Home Screen" width="800" />
   <br><em>Home Dashboard & Navigation</em><br><br>
-  
-  <img src="resources/Screenshot (32).png" alt="Talent Directory" width="800" />
-  <br><em>Candidate Search & Discovery</em><br><br>
-  
-  <img src="resources/how it works girl.png" alt="How It Works" width="400" />
-  <br><em>Streamlined Onboarding Workflow</em>
 </div>
 
 ---

@@ -6,13 +6,15 @@
 
 ---
 <div>  
-     <img src="recruiter dashboard/recruitdash.png" alt="Talent Directory" width="800" />
-  <br><br>
-    <img src="resources/Generative_Object.png" alt="Talent Directory" width="800" />
-  <br><br>
+  <span>
+     <img src="recruiter dashboard/recruitdash.png" alt="Talent Directory" width="400" />
+
+    <img src="resources/Generative_Object.png" alt="Talent Directory" width="400" />
+ 
   
   <img src="resources/how it works girl.png" alt="How It Works" width="400" />
   <br><br>
+   </span>
 </div>
 
 ---

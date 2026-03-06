@@ -7,7 +7,6 @@
 ---
 <div style="display: flex; align-items: center; justify-content: center;">  
      <img src="recruiter dashboard/recruitdash.png" alt="Talent Directory" width="400" />
-    <img src="resources/Generative_Object.png" alt="Talent Directory" width="400" /> 
   <img src="resources/how it works girl.png" alt="How It Works" width="400" />
   <br><br>
  
@@ -15,7 +14,7 @@
 
 ---
 
-## 📖 Table of Contents
+## ⚝ Table of Contents
 - [About the Project](#about-the-project)
 - [Key Features](#key-features)
 - [Tech Stack](#tech-stack)
@@ -30,7 +29,7 @@
 
 ---
 
-## 🚀 About the Project
+## ⚝ About the Project
 
 **PortfolioHub** is a comprehensive platform designed for both Job Seekers (interns, freelancers, professionals) and Employers. It provides a seamless experience for building stunning portfolios, discovering top talent, and streamlining the hiring process.
 
@@ -39,7 +38,7 @@ Whether you're looking to apply for an internship, showcase your projects, or fi
 
 ---
 
-## ✨ Key Features
+## ⚝ Key Features
 
 - **Dual User Roles**: Dedicated experiences for Job Seekers and Employers.
 - **Portfolio Builder**: Easily create and customize your professional portfolio.
@@ -51,7 +50,7 @@ Whether you're looking to apply for an internship, showcase your projects, or fi
 
 ---
 
-## 🛠 Tech Stack
+## ⚝ Tech Stack
 
 ### Frontend
 - **HTML5 & CSS3**: Responsive, mobile-first design.
@@ -67,7 +66,7 @@ Whether you're looking to apply for an internship, showcase your projects, or fi
 
 ---
 
-## 📸 Screenshots
+## ⚝ Screenshots
 
 <div align="center">
   <img src="resources/Screenshot 2026-03-07 002816.png" alt="PortfolioHub Home Screen" width="800" />
@@ -76,22 +75,22 @@ Whether you're looking to apply for an internship, showcase your projects, or fi
 
 ---
 
-## 🏁 Getting Started
+## ⚝ Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### ⚝ Prerequisites
 
 - [Node.js](https://nodejs.org/) (v16.x or higher)
 - [MongoDB](https://www.mongodb.com/) (Local instance or MongoDB Atlas)
 - [Git](https://git-scm.com/)
 
-### Installation
+### ⚝ Installation
 
 **THIS REPO IS NOT FOR OPEN SOURCE**
   
 
-## 💻 Usage
+## ⚝ Usage
 
 1. **Sign Up**: Create an account as either an intern/professional or an employer.
 2. **Build Profile**: Navigate to the "Build Portfolio" section to add your skills, experiences, and projects.

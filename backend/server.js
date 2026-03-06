@@ -40,7 +40,7 @@ app.use(cors({
     "http://127.0.0.1:5500",
     "http://localhost:3000",
     process.env.FRONTEND_URL,
-    "https://portpholiohub-frontend.onrender.com"
+    "https://portpholio-front.onrender.com"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true
@@ -982,3 +982,4 @@ const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} \n http://localhost:${PORT}`);
 });
+
